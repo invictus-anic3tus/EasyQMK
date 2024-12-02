@@ -4,10 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Getting Started - EasyQMK</title>
+    <title>EasyQMK</title>
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
   </head>
   <style>
+    :root {
+      font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    }
     p,
     span,
     h1,
@@ -22,11 +26,15 @@
       color: rgb(0, 204, 255);
     }
     a:visited {
-        color: rgb(201, 6, 201);
+      color: rgb(201, 6, 201);
+    }
+
+    .all {
+      display: flex;
     }
 
     .logodiv {
-        position: relative;
+      position: relative;
       background-image: url(./EasyQMK-Logo.png);
       background-size: cover;
       background-size: 100% 100%;
@@ -37,17 +45,40 @@
       text-align: center;
     }
     .logodiv h3 {
-        position: absolute;
-        top: 100px;
-        left: 180px;
-        text-decoration: none;
+      position: absolute;
+      top: 100px;
+      left: 180px;
+      text-decoration: none;
     }
     .logodiv h3 a {
-        text-decoration: none;
+      text-decoration: none;
     }
 
     .dir {
-        margin-left: 7%;
+      padding-right: 50px;
+      width: fit-content;
+      height: fit-content;
+      margin-left: 4%;
+      border: 2px solid white;
+      border-radius: 5px;
+      font-size: large;
+    }
+    .dir ul li {
+      padding: 5px;
+    }
+
+    .main {
+      width: 50%;
+      float: left;
+      margin: auto;
+      margin-top: -100px;
+    }
+    #welcome {
+      font-size: 5em;
+      font-weight: 900;
+    }
+    .main p {
+      font-size: large;
     }
   </style>
 
@@ -55,25 +86,34 @@
     <div class="logodiv">
       <h3>By <a href="https://github.com/invictus-anic3tus">Anicetus</a></h3>
     </div>
-
-    <div class="dir">
+    <div class="all">
+      <div class="dir">
         <ul>
-            <li><a href="./index.html">Home</a></li>
-            <li><a href="./start.html">Getting Started</a></li>
-            <li><a href="./keys.html">Key setup</a></li>
-            <li>
-                <a href="./extras.html">Extras</a>
-                <ul>
-                    <li><a href="./oled.html">OLED</a></li>
-                    <li><a href="./rotenc.html">Rotary Encoder</a></li>
-                </ul>
-            </li>
-            <li><a href="./compile.html">Compiling</a></li>
-            <li><a href="./upload.html">Uploading</a></li>
+          <li><a href="./">Home</a></li>
+          <li><a href="./start.html">Getting Started</a></li>
+          <li><a href="./keys.html">Key setup</a></li>
+          <li>
+            <a href="./extras.html">Extras</a>
+            <ul>
+              <li><a href="./oled.html">OLED</a></li>
+              <li><a href="./rotenc.html">Rotary Encoder</a></li>
+            </ul>
+          </li>
+          <li><a href="./compile.html">Compiling</a></li>
+          <li><a href="./upload.html">Uploading</a></li>
         </ul>
+      </div>
+
+      <div class="main">
+        <span id="welcome">Getting Started</span>
+        <p>
+          For the first step, you'll need to input the number of keys your keyboard has, and the matrix size.
+        </p>
+      </div>
     </div>
 
     <script>
+
 
     </script>
   </body>
