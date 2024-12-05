@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>EasyQMK - Key Setup</title>
+    <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+  </head>
+  <style>
+    :root {
+      font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    }
+    p,
+    span,
+    h1,
+    h2,
+    h3,
+    div {
+      color: white;
+    }
+
+    a {
+      font-weight: bold;
+      color: rgb(0, 204, 255);
+    }
+    a:visited {
+      color: rgb(201, 6, 201);
+    }
+
+    .maincontainer {
+      display: flex;
+    }
+
+    .logodiv {
+      position: relative;
+      background-image: url(./EasyQMK-Logo.png);
+      background-size: cover;
+      background-size: 100% 100%;
+      color: white;
+      width: 320px;
+      height: 180px;
+      margin: 2%;
+      text-align: center;
+    }
+    .logodiv h3 {
+      position: absolute;
+      top: 100px;
+      left: 180px;
+      text-decoration: none;
+    }
+    .logodiv h3 a {
+      text-decoration: none;
+    }
+
+    .dir {
+      padding-right: 50px;
+      width: fit-content;
+      height: fit-content;
+      margin-left: 4%;
+      border: 2px solid white;
+      border-radius: 5px;
+      font-size: large;
+    }
+    .dir ul li {
+      padding: 5px;
+    }
+
+    .inputs {
+      width: 50%;
+      float: left;
+      margin: auto;
+      margin-top: -100px;
+    }
+    #welcome {
+      font-size: 5em;
+      font-weight: 900;
+    }
+    p {
+      font-size: large;
+    }
+
+    .inputs label {
+      font-size: large;
+      display: block;
+    }
+    .inputs input {
+      margin-bottom: 10px;
+      font-size: larger;
+      width: 50px;
+      border: 3px solid rgb(0, 204, 255);
+      border-radius: 5px;
+    }
+    .example {
+      display: block;
+    }
+    .example span {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: -50px;
+      font-weight: 700;
+    }
+    .npbuts {
+      position: absolute;
+      width: 99%;
+      bottom: 70px;
+    }
+    .npbuts button {
+      width: 170px;
+      height: 50px;
+      font-size: larger;
+      color: white;
+      border: 3px solid white;
+      border-radius: 5px;
+    }
+    #next {
+      background-color: rgb(32, 173, 13);
+      position: absolute;
+      right: 10px;
+      margin-left: auto;
+      margin-right: 15px;
+    }
+
+    #prev {
+      background-color: rgb(216, 59, 221);
+      position: absolute;
+      left: 10px;
+      margin-right: auto;
+      margin-left: 15px;
+    }
+    #prev:hover,
+    #next:hover {
+      background-color: rgb(9, 76, 151);
+    }
+    #prev:active,
+    #next:active {
+      background-color: rgb(201, 6, 201);
+    }
+
+    table {
+      border: 2px solid white;
+      border-collapse: collapse;
+      margin-left: -50px;
+      margin-right: -50px;
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+
+    td {
+      border: 1px solid white;
+      border-collapse: collapse;
+      padding: 10px;
+    }
+
+    select {
+      font-size: large;
+      width: 150px;
+      height: 50px;
+      border-radius: 5px;
+    }
+  </style>
+
+  <body style="background-color: rgb(7, 3, 22)">
+    <div class="logodiv">
+      <h3>By <a href="https://github.com/invictus-anic3tus">Anicetus</a></h3>
+    </div>
+    <div class="maincontainer">
+      <div class="dir">
+        <ul>
+          <li><a href="./">Home</a></li>
+          <li><a href="./start.html">Getting Started</a></li>
+          <li><a href="./keys.html">Key setup</a></li>
+          <li>
+            <a href="./extras.html">Extras</a>
+            <ul>
+              <li><a href="./oled.html">OLED</a></li>
+              <li><a href="./rotenc.html">Rotary Encoder</a></li>
+            </ul>
+          </li>
+          <li><a href="./compile.html">Compiling</a></li>
+          <li><a href="./upload.html">Uploading</a></li>
+        </ul>
+      </div>
+
+      <div class="inputs">
+        <span id="welcome">Key Setup</span>
+        <p>
+          Here's where you'll select the functions that each key has in the
+          dropdowns. Select whether there's a key in that spot with the
+          checkbox, if your keys don't fill the matrix.<br />
+          Note: if a key you want is one that would normally be shifted to get
+          to, such as _ or +, find it
+          <a href="https://docs.qmk.fm/keycodes_us_ansi_shifted">here</a> and
+          copy its "alias" (or its regular value if it doesn't have one) to a
+          safe spot for later.
+        </p>
+        <table id="table"></table>
+        <div id="goback" style="display: none; margin-top: 20px">
+          Please go back and enter some values for the keys before coming here.
+          Thanks!
+        </div>
+
+        <div id="removekeys">
+          All good! When you're ready, hit Next to save your data and move to
+          the next step.
+        </div>
+      </div>
+
+      <div class="npbuts">
+        <button id="prev" onclick="prev()">Previous</button>
+        <button id="next" onclick="next()">Next</button>
+      </div>
+    </div>
+
+    <script>
+      const links = [
+        "./index.html", //0
+        "./start.html", //1
+        "./keys.html", //2 <--- You are here (thislink)
+        "./extras.html", //3
+        "./oled.html", //4
+        "./rotenc.html", //5
+        "./compile.html", //6
+        "./upload.html", //7
+      ];
+
+      const thislink = 2;
+
+      const matcol = localStorage.getItem("matcol");
+      const matrow = localStorage.getItem("matrow");
+      const keynum = localStorage.getItem("keynum");
+      const table = document.getElementById("table");
+      const goback = document.getElementById("goback");
+      const removekeys = document.getElementById("removekeys");
+      const values = [
+        // Letters and Numbers
+        { value: "KC_A", text: "a and A" },
+        { value: "KC_B", text: "b and B" },
+        { value: "KC_C", text: "c and C" },
+        { value: "KC_D", text: "d and D" },
+        { value: "KC_E", text: "e and E" },
+        { value: "KC_F", text: "f and F" },
+        { value: "KC_G", text: "g and G" },
+        { value: "KC_H", text: "h and H" },
+        { value: "KC_I", text: "i and I" },
+        { value: "KC_J", text: "j and J" },
+        { value: "KC_K", text: "k and K" },
+        { value: "KC_L", text: "l and L" },
+        { value: "KC_M", text: "m and M" },
+        { value: "KC_N", text: "n and N" },
+        { value: "KC_O", text: "o and O" },
+        { value: "KC_P", text: "p and P" },
+        { value: "KC_Q", text: "q and Q" },
+        { value: "KC_R", text: "r and R" },
+        { value: "KC_S", text: "s and S" },
+        { value: "KC_T", text: "t and T" },
+        { value: "KC_U", text: "u and U" },
+        { value: "KC_V", text: "v and V" },
+        { value: "KC_W", text: "w and W" },
+        { value: "KC_X", text: "x and X" },
+        { value: "KC_Y", text: "y and Y" },
+        { value: "KC_Z", text: "z and Z" },
+        { value: "KC_1", text: "1 and !" },
+        { value: "KC_2", text: "2 and @" },
+        { value: "KC_3", text: "3 and #" },
+        { value: "KC_4", text: "4 and $" },
+        { value: "KC_5", text: "5 and %" },
+        { value: "KC_6", text: "6 and ^" },
+        { value: "KC_7", text: "7 and &" },
+        { value: "KC_8", text: "8 and *" },
+        { value: "KC_9", text: "9 and (" },
+        { value: "KC_0", text: "0 and )" },
+
+        // F Keys
+        { value: "KC_F1", text: "F1" },
+        { value: "KC_F2", text: "F2" },
+        { value: "KC_F3", text: "F3" },
+        { value: "KC_F4", text: "F4" },
+        { value: "KC_F5", text: "F5" },
+        { value: "KC_F6", text: "F6" },
+        { value: "KC_F7", text: "F7" },
+        { value: "KC_F8", text: "F8" },
+        { value: "KC_F9", text: "F9" },
+        { value: "KC_F10", text: "F10" },
+        { value: "KC_F11", text: "F11" },
+        { value: "KC_F12", text: "F12" },
+        { value: "KC_F13", text: "F13" },
+        { value: "KC_F14", text: "F14" },
+        { value: "KC_F15", text: "F15" },
+        { value: "KC_F16", text: "F16" },
+        { value: "KC_F17", text: "F17" },
+        { value: "KC_F18", text: "F18" },
+        { value: "KC_F19", text: "F19" },
+        { value: "KC_F20", text: "F20" },
+        { value: "KC_F21", text: "F21" },
+        { value: "KC_F22", text: "F22" },
+        { value: "KC_F23", text: "F23" },
+        { value: "KC_F24", text: "F24" },
+
+        // Punctuation
+        { value: "KC_ENTER", text: "Return (Enter)" },
+        { value: "KC_ESCAPE", text: "Escape" },
+        { value: "KC_BACKSPACE", text: "Delete (Backspace)" },
+        { value: "KC_TAB", text: "Tab" },
+        { value: "KC_SPACE", text: "Spacebar" },
+        { value: "KC_MINUS", text: "- and _" },
+        { value: "KC_EQUAL", text: "= and +" },
+        { value: "KC_LEFT_BRACKET", text: "[ and {" },
+        { value: "KC_RIGHT_BRACKET", text: "] and }" },
+        { value: "KC_BACKSLASH", text: "\\ and |" },
+        { value: "KC_SEMICOLON", text: "; and :" },
+        { value: "KC_QUOTE", text: "' and \"" },
+        { value: "KC_GRAVE", text: "` and ~" },
+        { value: "KC_COMMA", text: ", and <" },
+        { value: "KC_DOT", text: ". and >" },
+        { value: "KC_SLASH", text: "/ and ?" },
+
+        // Lock Keys
+        { value: "KC_CAPS_LOCK", text: "Caps Lock" },
+        { value: "KC_SCROLL_LOCK", text: "Scroll Lock" },
+        { value: "KC_NUM_LOCK", text: "Keypad Num Lock and Clear" },
+
+        // Modifiers
+        { value: "KC_LEFT_CTRL", text: "Left Control" },
+        { value: "KC_LEFT_SHIFT", text: "Left Shift" },
+        { value: "KC_LEFT_ALT", text: "Left Alt (Option)" },
+        { value: "KC_LEFT_GUI", text: "Left GUI (Windows/Command/Meta key)" },
+        { value: "KC_RIGHT_CTRL", text: "Right Control" },
+        { value: "KC_RIGHT_SHIFT", text: "Right Shift" },
+        { value: "KC_RIGHT_ALT", text: "Right Alt (Option/AltGr)" },
+        { value: "KC_RIGHT_GUI", text: "Right GUI (Windows/Command/Meta key)" },
+      ];
+
+      var rows = [];
+      var headercells = [];
+      var rhcells = [];
+      var cells = [];
+      var selects = [];
+      var checks = [];
+      var checkedBoxes = matcol * matrow;
+      var firstrow = table.insertRow();
+      var firstcol = firstrow.insertCell();
+
+      function prev() {
+        // localStorage.setItem(
+        //   "keynum",
+        //   document.getElementById("keynum").valueAsNumber
+        // );
+
+        // localStorage.setItem(
+        //   "matcol",
+        //   document.getElementById("matcol").valueAsNumber
+        // );
+
+        // localStorage.setItem(
+        //   "matrow",
+        //   document.getElementById("matrow").valueAsNumber
+        // );
+        window.location.href = links[thislink - 1];
+      }
+      function next() {
+
+        if (keynum != checkedBoxes) {
+          alert("Follow directions below matrix");
+          return;
+        }
+
+        for (i = 0; i < selects.length; i++) {
+          if (selects[i]) {
+            if (checks[i].checked) {
+              if (i / 10 < 1 || i === 0) {
+                localStorage.setItem("keyAt0" + i, selects[i].value);
+                console.log(localStorage.getItem("keyAt0" + i));
+                continue;
+              }
+              
+              localStorage.setItem("keyAt" + i, selects[i].value);
+              console.log(localStorage.getItem("keyAt" + i));
+            } else {
+              if (i / 10 < 1 || i === 0) {
+                localStorage.setItem("keyAt0" + i, "NONE");
+                console.log(localStorage.getItem("keyAt0" + i));
+                continue;
+              }
+
+              localStorage.setItem("keyAt" + i, "NONE");
+              console.log(localStorage.getItem("keyAt" + i));
+            }
+          }
+        }
+        window.location.href = links[thislink + 1];
+      }
+
+      function setup() {
+        for (let j = 0; j < matcol; j++) {
+          headercells[j] = firstrow.insertCell();
+          headercells[j].innerHTML = "<b>Column " + j + "</b>";
+        }
+
+        for (let i = 0; i < matrow; i++) {
+          rows[i] = table.insertRow();
+          rhcells[i] = rows[i].insertCell();
+          rhcells[i].innerHTML = "<b>Row " + i + "</b>";
+          for (let k = 0; k < matcol; k++) {
+            let keyIndex = parseInt(i.toString() + k.toString());
+            cells[k] = rows[i].insertCell();
+            selects[keyIndex] = document.createElement("select");
+            checks[keyIndex] = document.createElement("input");
+            checks[keyIndex].type = "checkbox";
+            checks[keyIndex].checked = true;
+
+            values.forEach((option) => {
+              let optionElement = document.createElement("option");
+              optionElement.value = option.value;
+              optionElement.text = option.text;
+              selects[keyIndex].appendChild(optionElement);
+            });
+
+            cells[k].appendChild(selects[keyIndex]);
+            cells[k].appendChild(checks[keyIndex]);
+          }
+        }
+
+        for (let i = 0; i < checks.length; i++) {
+          if (!checks[i]) {
+            continue;
+          }
+
+          checks[i].addEventListener("change", function () {
+            if (this.checked) {
+              checkedBoxes++;
+            } else if (!this.checked) {
+              checkedBoxes += -1;
+            }
+            checkChecks(this);
+          });
+        }
+      }
+
+      if (matcol !== null && matrow !== null && keynum !== null) {
+        setup();
+      } else {
+        table.remove();
+        goback.style.display = "block";
+      }
+
+      function checkChecks(check) {
+
+        if (checkedBoxes > keynum) {
+          removekeys.innerHTML =
+            "Uh oh. It looks like you've checkmarked too many keys, based on what you've said in the last step. Please uncheck the keys that you aren't using, or go back and change how many keys you have.";
+        } else if (checkedBoxes < keynum) {
+          removekeys.innerHTML =
+            "Please check more keys! It looks like you haven't checked as many as you specified before. If you specified too many, go back and change it.";
+        } else if (checkedBoxes == keynum) {
+          removekeys.innerHTML =
+            "All good! When you're ready, hit Next to save your data and move to the next step.";
+        } else {
+          console.log("congradulations, you just achieved the impossible.");
+        }
+      }
+
+      checkChecks();
+    </script>
+  </body>
+</html>

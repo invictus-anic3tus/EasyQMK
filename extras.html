@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>EasyQMK - Getting Started</title>
+    <title>EasyQMK - Extras</title>
+    <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
   </head>
   <style>
@@ -121,7 +122,7 @@
       margin-left: auto;
       margin-right: 15px;
     }
-    
+
     #prev {
       background-color: rgb(216, 59, 221);
       position: absolute;
@@ -129,11 +130,29 @@
       margin-right: auto;
       margin-left: 15px;
     }
-    #prev:hover, #next:hover {
+    #prev:hover,
+    #next:hover {
       background-color: rgb(9, 76, 151);
     }
-    #prev:active, #next:active {
+    #prev:active,
+    #next:active {
       background-color: rgb(201, 6, 201);
+    }
+    #links {
+        margin-top: 40px;
+        display: flex;
+    }
+    #links div {
+        margin: auto;
+        border: 3px solid white;
+        border-radius: 10px;
+        padding: 10px;
+    }
+    #links label {
+        display: inline;
+    }
+    #links input {
+        display: inline;
     }
   </style>
 
@@ -160,20 +179,18 @@
       </div>
 
       <div class="inputs">
-        <span id="welcome">Getting Started</span>
-        <p>
-          For the first step, you'll need to input the number of keys your keyboard has, and the matrix size.
-        </p>
-        <label for="keynum">Number of keys:</label>
-        <input type="number" value="0" step="1"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" name="keynum" id="keynum">
-        <label for="matcol">Matrix columns:</label>
-        <input type="number" value="0" step="1"  oninput="this.value = this.value.replace(/[^0-9]/g, '');"  name="matcol" id="matcol">
-        <label for="matcol">Matrix rows:</label>
-        <input type="number" value="0" step="1"  oninput="this.value = this.value.replace(/[^0-9]/g, '');"  name="matrow" id="matrow">
-
-        <div class="example">
-          <span>Example matrix:</span>
-          <img src="./matrix-diagram.png" alt="Matrix Diagram" width="600px" height="auto">
+        <span id="welcome">Key Setup</span>
+        <div id="links">
+            <div>
+                <h2>OLED</h2>
+                <label for="oledenable">Are you using an OLED display?</label>
+                <input type="checkbox" name="oledenable" id="oledenable">
+            </div>
+            <div>
+                <h2>Rotary Encoder</h2>
+                <label for="rotenable">Are you using a rotary encoder?</label>
+                <input type="checkbox" name="rotenable" id="rotenable">
+            </div>
         </div>
       </div>
 
@@ -184,44 +201,48 @@
     </div>
 
     <script>
-
       const links = [
-        './index.html',   //0
-        './start.html',   //1 <--- You are here (thislink)
-        './keys.html',    //2
-        './extras.html',  //3
-        './oled.html',    //4
-        './rotenc.html',  //5
-        './compile.html', //6
-        './upload.html'   //7
+        "./index.html", //0
+        "./start.html", //1
+        "./keys.html", //2
+        "./extras.html", //3 <--- You are here (thislink)
+        "./oled.html", //4
+        "./rotenc.html", //5
+        "./compile.html", //6
+        "./upload.html", //7
       ];
 
-      const thislink = 1;
+      const thislink = 3;
 
-      async function prev() {
-        localStorage.setItem("keynum", document.getElementById("keynum").valueAsNumber);
-        
-        localStorage.setItem("matcol", document.getElementById("matcol").valueAsNumber);
-        
-        localStorage.setItem("matrow", document.getElementById("matrow").valueAsNumber);
-        window.location.href = links[thislink-1];
+      const matcol = localStorage.getItem("matcol");
+      const matrow = localStorage.getItem("matrow");
+      const keynum = localStorage.getItem("keynum");
+
+      function prev() {
+        // localStorage.setItem(
+        //   "keynum",
+        //   document.getElementById("keynum").valueAsNumber
+        // );
+
+        // localStorage.setItem(
+        //   "matcol",
+        //   document.getElementById("matcol").valueAsNumber
+        // );
+
+        // localStorage.setItem(
+        //   "matrow",
+        //   document.getElementById("matrow").valueAsNumber
+        // );
+        window.location.href = links[thislink - 1];
       }
-      async function next() {
-        localStorage.setItem("keynum", document.getElementById("keynum").valueAsNumber);
-        
-        localStorage.setItem("matcol", document.getElementById("matcol").valueAsNumber);
-        
-        localStorage.setItem("matrow", document.getElementById("matrow").valueAsNumber);
-        window.location.href = links[thislink+1];
+      function next() {
+
+        window.location.href = links[thislink + 1];
       }
-      async function setup() {
-        document.getElementById("keynum").value = localStorage.getItem("keynum");
+
+      function setup() {
         
-        document.getElementById("matcol").value = localStorage.getItem("matcol");
-        
-        document.getElementById("matrow").value = localStorage.getItem("matrow");
       }
-      setup();
     </script>
   </body>
 </html>
