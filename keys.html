@@ -175,6 +175,7 @@
           <li>
             <a href="./extras.html">Extras</a>
             <ul>
+              <li><a href="./shift.html">Shift/Caps Lock</a></li>
               <li><a href="./oled.html">OLED</a></li>
               <li><a href="./rotenc.html">Rotary Encoder</a></li>
             </ul>
@@ -220,10 +221,11 @@
         "./start.html", //1
         "./keys.html", //2 <--- You are here (thislink)
         "./extras.html", //3
-        "./oled.html", //4
-        "./rotenc.html", //5
-        "./compile.html", //6
-        "./upload.html", //7
+        "./shift.html", //4
+        "./oled.html", //5
+        "./rotenc.html", //6
+        "./compile.html", //7
+        "./upload.html", //8
       ];
 
       const thislink = 2;
@@ -461,6 +463,39 @@
           console.log("congradulations, you just achieved the impossible.");
         }
       }
+
+      window.addEventListener('beforeunload', (event) => {
+        if (keynum != checkedBoxes) {
+          alert("Follow directions below matrix");
+          event.preventDefault();
+          event.returnValue = '';
+          return;
+        }
+
+        for (i = 0; i < selects.length; i++) {
+          if (selects[i]) {
+            if (checks[i].checked) {
+              if (i / 10 < 1 || i === 0) {
+                localStorage.setItem("keyAt0" + i, selects[i].value);
+                console.log(localStorage.getItem("keyAt0" + i));
+                continue;
+              }
+              
+              localStorage.setItem("keyAt" + i, selects[i].value);
+              console.log(localStorage.getItem("keyAt" + i));
+            } else {
+              if (i / 10 < 1 || i === 0) {
+                localStorage.setItem("keyAt0" + i, "NONE");
+                console.log(localStorage.getItem("keyAt0" + i));
+                continue;
+              }
+
+              localStorage.setItem("keyAt" + i, "NONE");
+              console.log(localStorage.getItem("keyAt" + i));
+            }
+          }
+        }
+      });
 
       checkChecks();
     </script>

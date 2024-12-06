@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>EasyQMK - Getting Started</title>
+    <title>EasyQMK - Shifting/Caps Lock</title>
+    <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
     <link rel="icon" href="./favicon.ico" type="image/x-icon" />
   </head>
   <style>
@@ -121,7 +122,7 @@
       margin-left: auto;
       margin-right: 15px;
     }
-    
+
     #prev {
       background-color: rgb(216, 59, 221);
       position: absolute;
@@ -129,11 +130,30 @@
       margin-right: auto;
       margin-left: 15px;
     }
-    #prev:hover, #next:hover {
+    #prev:hover,
+    #next:hover {
       background-color: rgb(9, 76, 151);
     }
-    #prev:active, #next:active {
+    #prev:active,
+    #next:active {
       background-color: rgb(201, 6, 201);
+    }
+    #links {
+      margin-top: 40px;
+      /* display: flex; */
+    }
+    #links div {
+      margin: auto;
+      border: 3px solid white;
+      border-radius: 10px;
+      padding: 10px;
+      margin-top: 15px;
+    }
+    #links label {
+      display: inline;
+    }
+    #links input {
+      display: inline;
     }
   </style>
 
@@ -150,7 +170,7 @@
           <li>
             <a href="./extras.html">Extras</a>
             <ul>
-              <li><a href="./shift.html">Shift/Caps Lock</a></li>
+              <li><a href="./shift.html">Custom Shift/Caps Lock</a></li>
               <li><a href="./oled.html">OLED</a></li>
               <li><a href="./rotenc.html">Rotary Encoder</a></li>
             </ul>
@@ -161,22 +181,25 @@
       </div>
 
       <div class="inputs">
-        <span id="welcome">Getting Started</span>
-        <p>
-          For the first step, you'll need to input the number of keys your keyboard has, and the matrix size.
-        </p>
-        <label for="keynum">Number of keys:</label>
-        <input type="number" value="0" step="1"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" name="keynum" id="keynum">
-        <label for="matcol">Matrix columns:</label>
-        <input type="number" value="0" step="1"  oninput="this.value = this.value.replace(/[^0-9]/g, '');"  name="matcol" id="matcol">
-        <label for="matcol">Matrix rows:</label>
-        <input type="number" value="0" step="1"  oninput="this.value = this.value.replace(/[^0-9]/g, '');"  name="matrow" id="matrow">
+        <span id="welcome">Shift/Caps Lock</span>
 
-        <div class="example">
-          <span>Example matrix:</span>
-          <img src="./matrix-diagram.png" alt="Matrix Diagram" width="600px" height="auto">
+        <div id="warn">
+            Uh oh! Looks like you didn't select shifting in the previous step! Please go back and select it if you'd like to use custom shifting. If you aren't using it, keep on reading. ;)
         </div>
-      </div>
+        
+        <div>
+            <p>
+                Hey! Now, custom shifting and caps lock is slightly complicated. Check out the guide <a href="https://getreuer.info/posts/keyboards/custom-shift-keys/">here</a> for more information and how to set it up. Note: this guide is for more advanced QMK users. Beginners should stick with basic shift key functions.
+            </p>
+            <p>If you're here for normal shifting, when you made your keys in the key-arranging step, if you selected caps lock or shift in there, it'll be in your final keyboard.</p>
+            <p>But since you're here...</p>
+            <h3>Shameless self promotion!</h3>
+            <p>Are you a math student? Do you sometimes feel frustrated at the cumbersome number of textbooks? Fear no more! At <a href="https://invictus-anic3tus.github.io/MathSite">MathSite</a>, another of my projects, you'll never have to again.</p>
+            <p>MathSite is specifically designed with students in mind, providing formulas, definitions, and a calculator to streamline the studying process. With all your definitions and formulas in one spot, all you'll need will be your computer and notes to study faster and more efficiently.</p>
+        </div>
+    </div>
+
+    
 
       <div class="npbuts">
         <button id="prev" onclick="prev()">Previous</button>
@@ -185,52 +208,40 @@
     </div>
 
     <script>
-
-const links = [
+      const links = [
         "./index.html", //0
-        "./start.html", //1 <--- You are here (thislink)
-        "./keys.html", //2 
+        "./start.html", //1
+        "./keys.html", //2
         "./extras.html", //3
-        "./shift.html", //4
+        "./shift.html", //4 <--- You are here (thislink)
         "./oled.html", //5
         "./rotenc.html", //6
         "./compile.html", //7
         "./upload.html", //8
       ];
 
-      const thislink = 1;
+      const thislink = 4;
 
-      async function prev() {
-        localStorage.setItem("keynum", document.getElementById("keynum").valueAsNumber);
-        
-        localStorage.setItem("matcol", document.getElementById("matcol").valueAsNumber);
-        
-        localStorage.setItem("matrow", document.getElementById("matrow").valueAsNumber);
-        window.location.href = links[thislink-1];
+      const enabled = localStorage.getItem("Customshift");
+      console.log(enabled);
+      const warn = document.getElementById("warn");
+
+      function prev() {
+        window.location.href = links[thislink - 1];
       }
-      async function next() {
-        localStorage.setItem("keynum", document.getElementById("keynum").valueAsNumber);
-        
-        localStorage.setItem("matcol", document.getElementById("matcol").valueAsNumber);
-        
-        localStorage.setItem("matrow", document.getElementById("matrow").valueAsNumber);
-        window.location.href = links[thislink+1];
+      function next() {
+        window.location.href = links[thislink + 1];
       }
-      async function setup() {
-        document.getElementById("keynum").value = localStorage.getItem("keynum");
-        
-        document.getElementById("matcol").value = localStorage.getItem("matcol");
-        
-        document.getElementById("matrow").value = localStorage.getItem("matrow");
+      function setup() {
+        if (enabled == "true") {
+            warn.style.display = "none";
+        }
+        else {
+            warn.style.display = "block";
+        }
       }
-      window.addEventListener('beforeunload', (event) => {
-        localStorage.setItem("keynum", document.getElementById("keynum").valueAsNumber);
-        
-        localStorage.setItem("matcol", document.getElementById("matcol").valueAsNumber);
-        
-        localStorage.setItem("matrow", document.getElementById("matrow").valueAsNumber);
-});
       setup();
+    
     </script>
   </body>
 </html>

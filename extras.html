@@ -139,20 +139,24 @@
       background-color: rgb(201, 6, 201);
     }
     #links {
-        margin-top: 40px;
-        display: flex;
+      margin-top: 40px;
+      /* display: flex; */
     }
     #links div {
-        margin: auto;
-        border: 3px solid white;
-        border-radius: 10px;
-        padding: 10px;
+      margin: auto;
+      border: 3px solid white;
+      border-radius: 10px;
+      padding: 10px;
+      margin-top: 15px;
     }
     #links label {
-        display: inline;
+      display: inline;
     }
     #links input {
-        display: inline;
+      display: inline;
+    }
+    #links div h2 a {
+      text-decoration: none;
     }
   </style>
 
@@ -169,6 +173,7 @@
           <li>
             <a href="./extras.html">Extras</a>
             <ul>
+              <li><a href="./shift.html">Custom Shift/Caps Lock</a></li>
               <li><a href="./oled.html">OLED</a></li>
               <li><a href="./rotenc.html">Rotary Encoder</a></li>
             </ul>
@@ -179,18 +184,32 @@
       </div>
 
       <div class="inputs">
-        <span id="welcome">Key Setup</span>
+        <span id="welcome">Extras</span>
         <div id="links">
-            <div>
-                <h2>OLED</h2>
-                <label for="oledenable">Are you using an OLED display?</label>
-                <input type="checkbox" name="oledenable" id="oledenable">
-            </div>
-            <div>
-                <h2>Rotary Encoder</h2>
-                <label for="rotenable">Are you using a rotary encoder?</label>
-                <input type="checkbox" name="rotenable" id="rotenable">
-            </div>
+          <div>
+            <h2><a href="./shift.html">Shifting/Caps Lock</a></h2>
+            <p>
+              For using CUSTOM shift or caps lock to trigger buttons otherwise
+              not available.
+            </p>
+            <label for="shift">Enable</label>
+            <input type="checkbox" name="shift" id="shift" />
+          </div>
+          <div>
+            <h2><a href="./oled.html">OLED</a></h2>
+            <h3>What size OLED, if any?</h3>
+            <label for="oled1">128x64</label>
+            <input type="radio" name="oled" id="oled1" />
+            <label for="oled2">128x32</label>
+            <input type="radio" name="oled" id="oled2" />
+            <label for="oled3">None</label>
+            <input type="radio" name="oled" id="oled3" />
+          </div>
+          <div>
+            <h2><a href="./rotenc.html">Rotary Encoder</a></h2>
+            <label for="rotenable">Are you using a rotary encoder?</label>
+            <input type="checkbox" name="rotenable" id="rotenable" />
+          </div>
         </div>
       </div>
 
@@ -206,10 +225,11 @@
         "./start.html", //1
         "./keys.html", //2
         "./extras.html", //3 <--- You are here (thislink)
-        "./oled.html", //4
-        "./rotenc.html", //5
-        "./compile.html", //6
-        "./upload.html", //7
+        "./shift.html", //4
+        "./oled.html", //5
+        "./rotenc.html", //6
+        "./compile.html", //7
+        "./upload.html", //8
       ];
 
       const thislink = 3;
@@ -217,32 +237,44 @@
       const matcol = localStorage.getItem("matcol");
       const matrow = localStorage.getItem("matrow");
       const keynum = localStorage.getItem("keynum");
+      const shift = document.getElementById("shift");
+      const oled1 = document.getElementById("oled1");
+      const oled2 = document.getElementById("oled2");
+      const oled3 = document.getElementById("oled3");
+      const rot = document.getElementById("rotenable");
 
       function prev() {
-        // localStorage.setItem(
-        //   "keynum",
-        //   document.getElementById("keynum").valueAsNumber
-        // );
-
-        // localStorage.setItem(
-        //   "matcol",
-        //   document.getElementById("matcol").valueAsNumber
-        // );
-
-        // localStorage.setItem(
-        //   "matrow",
-        //   document.getElementById("matrow").valueAsNumber
-        // );
         window.location.href = links[thislink - 1];
       }
-      function next() {
-
+      function next(noload) {
+        if (shift.checked) {
+          localStorage.setItem("Customshift", true);
+        } else {
+          localStorage.setItem("Customshift", false);
+        }
+        if (oled1.checked) {
+          localStorage.setItem("OLED", "128x64");
+        }
+        if (oled2.checked) {
+          localStorage.setItem("OLED", "128x32");
+        }
+        if (oled3.checked) {
+          localStorage.setItem("OLED", "NONE");
+        }
+        if (rot.checked) {
+          localStorage.setItem("Rotenc", true);
+        } else {
+          localStorage.setItem("Rotenc", false);
+        }
+        if (noload) {
+          return;
+        }
         window.location.href = links[thislink + 1];
       }
 
-      function setup() {
-        
-      }
+      window.addEventListener("beforeunload", (event) => {
+        next(true);
+      });
     </script>
   </body>
 </html>
