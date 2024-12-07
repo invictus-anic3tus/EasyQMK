@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>EasyQMK - Rotary Encoder</title>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script> -->
+
+    <!-- Prism CSS -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Prism JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+  </head>
+  <style>
+    :root {
+      font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    }
+    p,
+    span,
+    h1,
+    h2,
+    h3,
+    div {
+      color: white;
+    }
+
+    a {
+      font-weight: bold;
+      color: rgb(0, 204, 255);
+    }
+    a:visited {
+      color: rgb(201, 6, 201);
+    }
+
+    .maincontainer {
+      display: flex;
+    }
+
+    .logodiv {
+      position: relative;
+      background-image: url(./EasyQMK-Logo.png);
+      background-size: cover;
+      background-size: 100% 100%;
+      color: white;
+      width: 320px;
+      height: 180px;
+      margin: 2%;
+      text-align: center;
+    }
+    .logodiv h3 {
+      position: absolute;
+      top: 100px;
+      left: 180px;
+      text-decoration: none;
+    }
+    .logodiv h3 a {
+      text-decoration: none;
+    }
+
+    .dir {
+      padding-right: 50px;
+      width: fit-content;
+      height: fit-content;
+      margin-left: 4%;
+      border: 2px solid white;
+      border-radius: 5px;
+      font-size: large;
+    }
+    .dir ul li {
+      padding: 5px;
+    }
+
+    .inputs {
+      width: 50%;
+      float: left;
+      margin: auto;
+      margin-top: -100px;
+    }
+    #welcome {
+      font-size: 5em;
+      font-weight: 900;
+    }
+    p {
+      font-size: large;
+    }
+
+    .inputs label {
+      font-size: large;
+      display: block;
+    }
+    .inputs input {
+      margin-bottom: 10px;
+      font-size: larger;
+      width: 50px;
+      border: 3px solid rgb(0, 204, 255);
+      border-radius: 5px;
+    }
+    .example {
+      display: block;
+    }
+    .example span {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: -50px;
+      font-weight: 700;
+    }
+    .npbuts {
+      position: fixed;
+      width: 99%;
+      bottom: 70px;
+    }
+    .npbuts button {
+      width: 170px;
+      height: 50px;
+      font-size: larger;
+      color: white;
+      border: 3px solid white;
+      border-radius: 5px;
+    }
+    #next {
+      background-color: rgb(32, 173, 13);
+      position: fixed;
+      right: 10px;
+      margin-left: auto;
+      margin-right: 15px;
+    }
+
+    #prev {
+      background-color: rgb(216, 59, 221);
+      position: fixed;
+      left: 10px;
+      margin-right: auto;
+      margin-left: 15px;
+    }
+    #prev:hover,
+    #next:hover {
+      background-color: rgb(9, 76, 151);
+    }
+    #prev:active,
+    #next:active {
+      background-color: rgb(201, 6, 201);
+    }
+    #links {
+      margin-top: 40px;
+      /* display: flex; */
+    }
+    #links div {
+      margin: auto;
+      border: 3px solid white;
+      border-radius: 10px;
+      padding: 10px;
+      margin-top: 15px;
+    }
+    #links label {
+      display: inline;
+    }
+    #links input {
+      display: inline;
+    }
+
+    pre {
+      border: 2px solid rgb(216, 59, 221);
+      border-radius: 5px;
+      font-size: larger;
+      width: 300px;
+      text-align: left;
+      padding: 10px;
+      padding-top: 20px;
+    }
+
+    .code-header {
+      color: black;
+      font-size: large;
+      position: relative;
+      top: 20px;
+      left: 10px;
+      padding: 5px;
+      margin-top: -25px;
+      background-color: rgb(244, 242, 240);
+      border-radius: 5px;
+    }
+
+    .large {
+      width: auto;
+    }
+  </style>
+
+  <body style="background-color: rgb(7, 3, 22);">
+    <div class="logodiv">
+      <h3>By <a href="https://github.com/invictus-anic3tus">Anicetus</a></h3>
+    </div>
+    <div class="maincontainer">
+      <div class="dir">
+        <ul>
+          <li><a href="./">Home</a></li>
+          <li><a href="./start.html">Getting Started</a></li>
+          <li><a href="./keys.html">Key setup</a></li>
+          <li>
+            <a href="./extras.html">Extras</a>
+            <ul>
+              <li><a href="./shift.html">Custom Shift/Caps Lock</a></li>
+              <li><a href="./oled.html">OLED</a></li>
+              <li><a href="./rotenc.html">Rotary Encoder</a></li>
+            </ul>
+          </li>
+          <li><a href="./compile.html">Compiling</a></li>
+          <li><a href="./upload.html">Uploading</a></li>
+        </ul>
+      </div>
+
+      <div class="inputs">
+        <span id="welcome">Rotary Encoder Setup</span>
+
+        <div id="warn">
+          Uh oh! Looks like you didn't select the rotary encoder in the previous step! Please
+          go back and select it if you'd like to use one. If you aren't
+          using it, keep on reading. ;)
+        </div>
+        <h3>Note:</h3>
+        <p>I'm effectively copying this guide from the amazing source at <a href="https://docs.qmk.fm/features/encoders">https://docs.qmk.fm/features/encoders</a>. It has all the information you need, and more, so feel free to read that guide instead. However, I do explain some things it doesn't.</p>
+
+        <p>Firstly, add <code class="language-javascript">ENCODER_ENABLE = yes</code> to your rules.mk file, and</p>
+        <pre><code class="language-c">#define ENCODER_A_PINS { D12 }
+#define ENCODER_B_PINS { D13 }</code></pre> to your config.h file.
+        <p>These A and B pins are the pins from the schematic. Hopefully you know these! Look at your schematic and determine which microcontroller pins are connected to the A and B labeled pins of the rotary encoder. The D before the pin number might be replaced with G or B, depending on your controller. For RP2040 it's D.</p>
+        <p>If you want to flip the encoder's direction, use <code class="language-c">#define ENCODER_DIRECTION_FLIP</code>. To lessen or greaten the sensitivity, decrease or increase <code class="language-c">#define ENCODER_RESOLUTION 4</code>. The higher the number, the lower sensitivity.</p>
+        <p>With that, your rotary encoder is configured! Read the guide above for more information and uses.</p>
+      </div>
+
+      <div class="npbuts">
+        <button id="prev" onclick="prev()">Previous</button>
+        <button id="next" onclick="next()">Next</button>
+      </div>
+    </div>
+
+    <script>
+      const links = [
+        "./index.html", //0
+        "./start.html", //1
+        "./keys.html", //2
+        "./extras.html", //3
+        "./shift.html", //4
+        "./oled.html", //5
+        "./rotenc.html", //6 <--- You are here (thislink)
+        "./compile.html", //7
+        "./upload.html", //8
+      ];
+
+      const thislink = 6;
+
+      const enabled = localStorage.getItem("Rotenc");
+      console.log(enabled);
+      const warn = document.getElementById("warn");
+
+      function prev() {
+        window.location.href = links[thislink - 1];
+      }
+      function next() {
+        window.location.href = links[thislink + 1];
+      }
+      function setup() {
+        if (enabled == "true") {
+          warn.style.display = "none";
+        } else {
+          warn.style.display = "block";
+        }
+      }
+      setup();
+    </script>
+  </body>
+</html>
