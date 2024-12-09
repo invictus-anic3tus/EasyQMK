@@ -73,12 +73,29 @@
       margin: auto;
       margin-top: -100px;
     }
+    #inputscontain {
+      display: flex;
+    }
+    #inputscontain div {
+      margin: auto;
+    }
     #welcome {
       font-size: 5em;
       font-weight: 900;
     }
     p {
       font-size: large;
+    }
+
+    select {
+      padding: 10px;
+      margin-top: 10px;
+      border: 2px solid rgb(0, 204, 255);
+      border-radius: 5px;
+    }
+
+    option {
+      font-size: 1.2em;
     }
 
     .inputs label {
@@ -135,6 +152,12 @@
     #prev:active, #next:active {
       background-color: rgb(201, 6, 201);
     }
+    #keebname {
+      width: max-content;
+      padding: 7px;
+      margin-bottom: 10px;
+      margin-top: 10px;
+    }
   </style>
 
   <body style="background-color: rgb(7, 3, 22)">
@@ -150,7 +173,7 @@
           <li>
             <a href="./extras.html">Extras</a>
             <ul>
-              <li><a href="./shift.html">Shift/Caps Lock</a></li>
+              <li><a href="./shift.html">Custom Shift/Caps Lock</a></li>
               <li><a href="./oled.html">OLED</a></li>
               <li><a href="./rotenc.html">Rotary Encoder</a></li>
             </ul>
@@ -163,14 +186,39 @@
       <div class="inputs">
         <span id="welcome">Getting Started</span>
         <p>
-          For the first step, you'll need to input the number of keys your keyboard has, and the matrix size.
+          For the first step, you'll need to input some base info about your keyboard, as well as the number of keys your keyboard has, and the matrix size.
         </p>
-        <label for="keynum">Number of keys:</label>
-        <input type="number" value="0" step="1"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" name="keynum" id="keynum">
-        <label for="matcol">Matrix columns:</label>
-        <input type="number" value="0" step="1"  oninput="this.value = this.value.replace(/[^0-9]/g, '');"  name="matcol" id="matcol">
-        <label for="matcol">Matrix rows:</label>
-        <input type="number" value="0" step="1"  oninput="this.value = this.value.replace(/[^0-9]/g, '');"  name="matrow" id="matrow">
+        <div id="inputscontain">
+          <div>
+            <label for="keynum">Number of keys:</label>
+            <input type="number" value="0" step="1"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" name="keynum" id="keynum">
+            <label for="matcol">Matrix columns:</label>
+            <input type="number" value="0" step="1"  oninput="this.value = this.value.replace(/[^0-9]/g, '');"  name="matcol" id="matcol">
+            <label for="matcol">Matrix rows:</label>
+            <input type="number" value="0" step="1"  oninput="this.value = this.value.replace(/[^0-9]/g, '');"  name="matrow" id="matrow">
+          </div>
+
+          <div>
+            <label for="keebname">What's your keyboard's name?</label>
+            <input type="text" name="keebname" id="keebname">
+            <label for="microcontroller">What's its microcontroller? If you don't see yours here, select RP2040.<br>We'll get to this again later.</label>
+            <select name="microcontroller" id="microcontroller">
+              <option value="rp2040">RP2040</option>
+              <option value="atmega32u4">ATmega32u4</option>
+              <option value="stm32f103">STM32F103 (Blue Pill)</option>
+              <option value="stm32l432">STM32L432</option>
+              <option value="esp32-s2">ESP32-S2</option>
+              <option value="pro-micro">Pro Micro</option>
+              <option value="teensy-2-0">Teensy 2.0</option>
+              <option value="teensy-4-0">Teensy 4.0</option>
+              <option value="nrf52840">Nordic nRF52840</option>
+              <option value="seeed-xiao-rp2040">Seeed Xiao (RP2040)</option>
+              <option value="seeed-xiao-samd21">Seeed Xiao (SAMD21)</option>
+            </select>
+          </div>
+          
+        </div>
+        
 
         <div class="example">
           <span>Example matrix:</span>
@@ -200,23 +248,27 @@ const links = [
 
       const thislink = 1;
 
-      async function prev() {
+      function setSettings() {
         localStorage.setItem("keynum", document.getElementById("keynum").valueAsNumber);
+
+        localStorage.setItem("keebname", document.getElementById("keebname").value);
+        localStorage.setItem("microcontroller", document.getElementById("microcontroller").value);
         
         localStorage.setItem("matcol", document.getElementById("matcol").valueAsNumber);
         
         localStorage.setItem("matrow", document.getElementById("matrow").valueAsNumber);
+      }
+
+      async function prev() {
+        setSettings();
         window.location.href = links[thislink-1];
       }
       async function next() {
-        localStorage.setItem("keynum", document.getElementById("keynum").valueAsNumber);
-        
-        localStorage.setItem("matcol", document.getElementById("matcol").valueAsNumber);
-        
-        localStorage.setItem("matrow", document.getElementById("matrow").valueAsNumber);
+        setSettings();
         window.location.href = links[thislink+1];
       }
       async function setup() {
+        document.getElementById("keebname").value = localStorage.getItem("keebname");
         document.getElementById("keynum").value = localStorage.getItem("keynum");
         
         document.getElementById("matcol").value = localStorage.getItem("matcol");
@@ -224,12 +276,8 @@ const links = [
         document.getElementById("matrow").value = localStorage.getItem("matrow");
       }
       window.addEventListener('beforeunload', (event) => {
-        localStorage.setItem("keynum", document.getElementById("keynum").valueAsNumber);
-        
-        localStorage.setItem("matcol", document.getElementById("matcol").valueAsNumber);
-        
-        localStorage.setItem("matrow", document.getElementById("matrow").valueAsNumber);
-});
+        setSettings();
+      });
       setup();
     </script>
   </body>

@@ -261,6 +261,9 @@
         if (oled3.checked) {
           localStorage.setItem("OLED", "NONE");
         }
+        if (!oled1.checked && !oled2.checked && !oled3.checked) {
+          localStorage.setItem("OLED", "NONE");
+        }
         if (rot.checked) {
           localStorage.setItem("Rotenc", true);
         } else {
@@ -275,6 +278,44 @@
       window.addEventListener("beforeunload", (event) => {
         next(true);
       });
+
+      function setup() {
+        if (localStorage.getItem("Customshift") == "true") {
+          shift.checked = true;
+        }
+        else {
+          shift.checked = false;
+        }
+        switch(localStorage.getItem("OLED")) {
+          case "128x64":
+            oled1.checked = true;
+            oled2.checked = false;
+            oled3.checked = false;
+            break;
+          case "128x32":
+            oled1.checked = false;
+            oled2.checked = true;
+            oled3.checked = false;
+            break;
+          case "NONE":
+            oled1.checked = false;
+            oled2.checked = false;
+            oled3.checked = true;
+            break;
+          default:
+            oled1.checked = false;
+            oled2.checked = false;
+            oled3.checked = false;
+            break;
+        }
+        if (localStorage.getItem("Rotenc") == "true") {
+          rot.checked = true;
+        }
+        else {
+          rot.checked = false;
+        }
+      }
+      setup();
     </script>
   </body>
 </html>
