@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>EasyQMK - Rotary Encoder</title>
+    <title>EasyQMK - Compiling</title>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script> -->
 
@@ -174,8 +174,9 @@
       font-size: larger;
       width: 300px;
       text-align: left;
-      padding: 10px;
-      padding-top: 20px;
+      /* padding: 10px;
+      padding-top: 20px; */
+      width: auto;
     }
 
     .code-header {
@@ -188,10 +189,6 @@
       margin-top: -25px;
       background-color: rgb(244, 242, 240);
       border-radius: 5px;
-    }
-
-    .large {
-      width: auto;
     }
 
     #minidir li a {
@@ -244,6 +241,17 @@
 
         <p>Whew! That was a lot of file-making. Now, you're going to simply paste code into each file. Firstly, however, in the readme.md, write whatever you want inside to provide information about your keyboard. Maybe what inspired it, what it's all about. You can leave it blank if you want.</p>
         <p>But one thing you <i>can't</i> leave blank is the keyboard.json file. Inside, paste:</p>
+        <pre><code id="keyboard.json" class="language-c">Hi
+Mom</code></pre>
+        <pre>
+        <code id="keymap.c" class="language-c"></code>
+      </pre>
+        <pre>
+        <code id="rules.mk" class="language-c"></code>
+      </pre>
+        <pre>
+        <code id="config.h" class="language-c"></code>
+        </pre>
         
       </div>
 
@@ -254,6 +262,80 @@
     </div>
 
     <script>
+      const keyboard = document.getElementById("keyboard.json");
+      const keymap = document.getElementById("keymap.c");
+      const rules = document.getElementById("rules.mk");
+      const config = document.getElementById("config.h");
+      const oled = localStorage.getItem("OLED");
+      const rotenc = localStorage.getItem("Rotenc");
+      const keebname = localStorage.getItem("keebname");
+      const bootloader = localStorage.getItem("microcontroller");
+      const diode_direction = localStorage.getItem("diode_direction");
+      const matcol = localStorage.getItem("matcol");
+      const matrow = localStorage.getItem("matrow");
+      const keynum = localStorage.getItem("keynum");
+      var matrixEntries = [ // Example 3x4 Matrix
+        {"matrix": [0,0], "x": 0, "y": 0},
+        {"matrix": [0, 1], "x": 1, "y": 0},
+        {"matrix": [0, 2], "x": 2, "y": 0},
+        {"matrix": [1, 0], "x": 0, "y": 1},
+        {"matrix": [1, 1], "x": 1, "y": 1},
+        {"matrix": [1, 2], "x": 2, "y": 1},
+       {"matrix": [2, 0], "x": 0, "y": 2},
+        {"matrix": [2, 1], "x": 1, "y": 2},
+        {"matrix": [2, 2], "x": 2, "y": 2},
+        {"matrix": [3, 0], "x": 0, "y": 3},
+         {"matrix": [3, 1], "x": 1, "y": 3},
+        {"matrix": [3, 2], "x": 2, "y": 3}
+      ]; // {"matrix": [row,col], "x": col, "y": row}
+      var allKeys = {};
+      var colPins = [];
+      var rowPins = [];
+      var bootmagic = false;
+      var processor = "atmega32u4"
+      var altBootloader = bootloader;
+
+      setup();
+
+      var keyboardText =`{
+    "manufacturer": "********YOUR NAME HERE**********",
+    "keyboard_name": "${keebname}",
+    "maintainer": "*******GITHUB USERNAME HERE*******",
+    "bootloader": "${altBootloader}",
+    "diode_direction": "${diode_direction}",
+    "features": {
+        "bootmagic": ${bootmagic},
+        "command": false,
+        "console": false,
+        "extrakey": true,
+        "mousekey": false,
+        "nkro": true
+    },
+    "matrix_pins": {
+        "cols": ${JSON.stringify(colPins, null)},
+        "rows": ${JSON.stringify(rowPins, null)} 
+    },
+    "processor": "${processor}",
+    "url": "(optional, leave blank otherwise)URL to an info page, i.e https://github.com/exampleuser/example, https://example.com.",
+    "usb": {
+        "device_version": "1.0.0",
+        "pid": "0x0000",
+        "vid": "0xFEED"
+    },
+    "layouts": {
+        "LAYOUT_ortho_${matcol}x${matrow}": {
+            "layout": [
+                ${(JSON.stringify(matrixEntries, null))
+                  .replace(/},/g, '},\n                ') // Replace ending }, with }, and then some tabs
+                  .replace(/\[{/g, '{') // Replace [{ with { at beginning of string
+                  .slice(0, -1)/* Remove last character, the unnecesary ]*/}
+            ]
+        }
+    }
+}
+`;
+
+
       const links = [
         "./index.html", //0
         "./start.html", //1
@@ -275,8 +357,122 @@
         window.location.href = links[thislink + 1];
       }
       function setup() {
+
+        // Set processor and bootmagic
+        switch (bootloader) {
+          case "rp2040":
+            processor = "rp2040";
+
+            bootmagic = true;
+            break;
+          case "caterina":
+            processor = "atmega32u4";
+
+            bootmagic = true;
+            break;
+          case "halfkay":
+            processor = "imxrt1062";
+          
+            bootmagic = true;
+            break;
+          case "halfkay-2":
+            processor = "atmega32u4";
+          
+            bootmagic = true;
+            break;
+          case "samd":
+            processor = "samd21";
+          
+            bootmagic = true;
+            break;
+          case "nrf-dfu":
+            processor = "nrf52840";
+          
+            bootmagic = true;
+            break;
+          case "stm32-dfu":
+            processor = "stm32l432";
+          
+            bootmagic = false;
+            break;
+          case "stm32-dfu-f103":
+            processor = "stm32f103";
+          
+            bootmagic = false;
+            break;
+          case "stm32duino":
+            processor = "stm32f103";
+          
+            bootmagic = false;
+            break;
+          case "espressif-dfu":
+            processor = "espressif";
+          
+            bootmagic = false;
+            break;
+          default:
+            bootmagic = false;
+            break;
+        }
+
+        // Settle repeat bootloaders
+        if (altBootloader == "halfkay-2") {
+          altBootloader = "halfkay";
+        } else if (altBootloader == "stm32-dfu-f103") {
+          altBootloader = "stm32-dfu";
+        }
+        
+        // Setup Column and Row Pin definitions
+        for (i = 0; i < matcol; i++) {
+          if (i + 1 == matcol) {
+            colPins.push("Replace these pin values (these strings included) with the pins connected to your matrix rows/columns.");
+            continue;
+          }
+          colPins.push("D"+i);
+        }
+        for (j = 0; j < matrow; j++) {
+          if (j + 1 == matrow) {
+            rowPins.push("The D before each number must be replaced by the pin indicator of your microcontroller.");
+            continue;
+          }
+          rowPins.push("D"+(j+parseInt(matrow)));
+        }
+
+        matrixEntries = [];
+        
+        // Setup Matrix (separate for function for readability)
+        for (k = 0; k < matcol; k++) {
+          for (l = 0; l < matrow; l++) {
+            let ks = k.toString();
+            let ls = l.toString();
+            let lk = ls.concat(ks); // Turn k and l into ## format
+            console.log("keyAt"+lk);
+            allKeys[lk] = localStorage.getItem("keyAt"+lk);
+            matrixEntries.push({ "matrix": [l,k], "x": k, "y": l });
+            //             {"matrix": [row,col], "x": col, "y": row}
+          }
+        }
+        console.log(allKeys);
+
+        // Remove matrix entries without keys
+
+        Object.entries(allKeys).forEach(([key, value]) => {
+          console.log(key + ": " + value);
+          if (value === "NONE") {
+            let key1 = parseInt(key.charAt(0));
+            let key2 = parseInt(key.charAt(1));
+            let key12 = [key1, key2];
+            matrixEntries = matrixEntries.filter(element => JSON.stringify(element["matrix"]) != JSON.stringify(key12));
+          }
+        });
+
+
       }
-      setup();
+      function setContent() {
+        keyboard.textContent = keyboardText;
+      }
+      setContent();
+      
     </script>
   </body>
 </html>

@@ -198,6 +198,15 @@
           safe spot for later.
         </p>
         <table id="table"></table>
+        <div style="margin: 10px;">
+          
+        <label for="diode_direction">Here you'll input your diode direction. This is simply which order the diodes go. If they go from the column to the row, select COL2ROW. If the diodes go from the row to the column, select ROW2COL.</label>
+        <select name="diode_direction" id="diode_direction">
+          <option value="COL2ROW">COL2ROW</option>
+          <option value="ROW2COL">ROW2COL</option>
+        </select>
+
+        </div>
         <div id="goback" style="display: none; margin-top: 20px">
           Please go back and enter some values for the keys before coming here.
           Thanks!
@@ -346,20 +355,6 @@
       var firstcol = firstrow.insertCell();
 
       function prev() {
-        // localStorage.setItem(
-        //   "keynum",
-        //   document.getElementById("keynum").valueAsNumber
-        // );
-
-        // localStorage.setItem(
-        //   "matcol",
-        //   document.getElementById("matcol").valueAsNumber
-        // );
-
-        // localStorage.setItem(
-        //   "matrow",
-        //   document.getElementById("matrow").valueAsNumber
-        // );
         window.location.href = links[thislink - 1];
       }
       function next() {
@@ -368,6 +363,8 @@
           alert("Follow directions below matrix");
           return;
         }
+
+        localStorage.setItem("diode_direction", document.getElementById("diode_direction").value);
 
         for (i = 0; i < selects.length; i++) {
           if (selects[i]) {
@@ -465,6 +462,8 @@
       }
 
       window.addEventListener('beforeunload', (event) => {
+
+        localStorage.setItem("diode_direction", document.getElementById("diode_direction").value);
         if (keynum != checkedBoxes) {
           alert("Follow directions below matrix");
           event.preventDefault();
