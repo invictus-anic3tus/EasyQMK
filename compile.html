@@ -243,15 +243,21 @@
         <p>But one thing you <i>can't</i> leave blank is the keyboard.json file. Inside, paste:</p>
         <pre><code id="keyboard.json" class="language-c">Hi
 Mom</code></pre>
-        <pre>
-        <code id="keymap.c" class="language-c"></code>
-      </pre>
-        <pre>
-        <code id="rules.mk" class="language-c"></code>
-      </pre>
-        <pre>
-        <code id="config.h" class="language-c"></code>
-        </pre>
+
+        <p>Gosh, that's a lot of code! Remember to fill in the placeholders I put in for you. Anyways, the next file we'll be editing is keymap.c. Open it up and paste in:</p>
+        <pre><code id="keymap.c" class="language-c"></code></pre>
+        
+        <p>The end is near! Now it's time for rules.mk, the shortest yet:</p>
+        <pre><code id="rules.mk" class="language-c"></code></pre>
+        <p>If you want to add debugging for OLED, RE, etc. add these lines:</p>
+        <pre><code class="language-c">CONSOLE_ENABLE = yes
+DEBUG_MATRIX_SCAN_RATE = yes</code></pre>
+
+        <p>Noice! Time for the very last file!! Hop into config.h and paste this in.</p>
+        
+        <pre><code id="config.h" class="language-c"></code></pre>
+
+        <p>Wow! We're done coding! See, it's not that hard. Well. It was a pain for <em>me</em> to code, I can tell ya that. Anyways, there's only one very short step left. Head on over to <a href="./upload.html">upload!</a></p>
         
       </div>
 
@@ -295,7 +301,7 @@ Mom</code></pre>
       var processor = "atmega32u4"
       var altBootloader = bootloader;
 
-      setup();
+      // setup();
 
       var keyboardText =`{
     "manufacturer": "********YOUR NAME HERE**********",
@@ -323,7 +329,7 @@ Mom</code></pre>
         "vid": "0xFEED"
     },
     "layouts": {
-        "LAYOUT_ortho_${matcol}x${matrow}": {
+        "LAYOUT_ortho_${matrow}x${matcol}": {
             "layout": [
                 ${(JSON.stringify(matrixEntries, null))
                   .replace(/},/g, '},\n                ') // Replace ending }, with }, and then some tabs
@@ -335,7 +341,29 @@ Mom</code></pre>
 }
 `;
 
+      var keymapOledText = '';
+      var keymapREText = '';
+      var keymapText =`#include QMK_KEYBOARD_H
 
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    [0] = LAYOUT_ortho_3x4(
+        KC_A, KC_B, KC_C,
+        KC_D, KC_E, KC_F,
+        KC_G, KC_H, KC_I,
+        KC_J, KC_K, KC_L
+    )
+};${keymapOledText}
+${keymapREText}`;
+      
+      var rulesOLEDText = '';
+      var rulesREText = '';
+      var rulesText = `${rulesOLEDText}${rulesREText}`;
+
+
+      var configOledText = '';
+      var configREText = '';
+      var configText = `${configOledText}${configREText}`;
+      
       const links = [
         "./index.html", //0
         "./start.html", //1
@@ -410,6 +438,13 @@ Mom</code></pre>
           
             bootmagic = false;
             break;
+          case "none":
+            processor = "YOUR PROCESSOR HERE (you selected none of the above on the first step.)"
+
+            console.log("hi");
+
+            bootmagic = false;
+            break;
           default:
             bootmagic = false;
             break;
@@ -420,6 +455,8 @@ Mom</code></pre>
           altBootloader = "halfkay";
         } else if (altBootloader == "stm32-dfu-f103") {
           altBootloader = "stm32-dfu";
+        } else if (altBootloader == "none") {
+          altBootloader = "INPUT BOOTLOADER HERE! You selected none of the above at the first step."
         }
         
         // Setup Column and Row Pin definitions
@@ -432,7 +469,7 @@ Mom</code></pre>
         }
         for (j = 0; j < matrow; j++) {
           if (j + 1 == matrow) {
-            rowPins.push("The D before each number must be replaced by the pin indicator of your microcontroller.");
+            rowPins.push("The D before each number MUST be replaced by the pin indicator of your microcontroller.");
             continue;
           }
           rowPins.push("D"+(j+parseInt(matrow)));
@@ -445,9 +482,9 @@ Mom</code></pre>
           for (l = 0; l < matrow; l++) {
             let ks = k.toString();
             let ls = l.toString();
-            let lk = ls.concat(ks); // Turn k and l into ## format
-            console.log("keyAt"+lk);
-            allKeys[lk] = localStorage.getItem("keyAt"+lk);
+            let lk = ls + "-" + ks;
+            // console.log(lk);
+            allKeys[lk] = localStorage.getItem(lk);
             matrixEntries.push({ "matrix": [l,k], "x": k, "y": l });
             //             {"matrix": [row,col], "x": col, "y": row}
           }
@@ -467,9 +504,89 @@ Mom</code></pre>
         });
 
 
+        // Setup keymap.c, rules.mk, config.h
+
+        if (oled == "128x64" || oled == "128x32") {
+          keymapOledText = `#ifdef OLED_ENABLE
+
+bool oled_task_user() {
+    oled_clear();
+    oled_write_P(PSTR("Testing OLED!"), false); // Replace THIS line with whatever you'd like the OLED to display.
+    // There are more details in the OLED page!
+    return false;
+}
+
+#endif
+
+`;
+          rulesOLEDText = `OLED_ENABLE = yes
+LTO_ENABLE = yes`;
+          configOledText = `#define I2C1_SDA_PIN GP6
+#define I2C1_SCL_PIN GP7 // Define which pins are SDA and SCL on your microcontroller model.
+#define OLED_DRIVER_ENABLE
+
+// You may need to add these if the OLED doesn't work at first.
+
+#define OLED_I2C_ADDRESS 0x3C  // or 0x3D, depending on your OLED
+#define OLED_DISPLAY_ON 1`;
+          if (oled == "128x64") {
+            configOledText = `#define I2C1_SDA_PIN GP6
+#define I2C1_SCL_PIN GP7 // Define which pins are SDA and SCL on your microcontroller model.
+#define OLED_DISPLAY_128x64 // Set the right resolution
+#define OLED_DRIVER_ENABLE
+
+// You may need to add these if the OLED doesn't work at first.
+
+#define OLED_I2C_ADDRESS 0x3C  // or 0x3D, depending on your OLED
+#define OLED_DISPLAY_ON 1`;
+          }
+        }
+        if (rotenc == "true") {
+          console.log(rotenc);
+          keymapREText = `
+bool encoder_update_user(uint8_t index, bool clockwise) {
+    if (index == 0) { /* Encoder code */
+        if (clockwise) {
+            tap_code(KC_PGDN);
+        } else {
+            tap_code(KC_PGUP); // The QMK keycode value of choice. List at https://docs.qmk.fm/keycodes
+        } // More info at the Rotary Encoder page
+    }
+    return false;
+}
+
+`;
+          rulesREText = `
+ENCODER_ENABLE = yes`;
+          configREText = `
+#define ENCODER_A_PINS { GP2 }
+#define ENCODER_B_PINS { GP4 }`;
+        }
+
+        keymapText = `#include QMK_KEYBOARD_H
+
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    [0] = LAYOUT_ortho_3x4(
+        KC_A, KC_B, KC_C,
+        KC_D, KC_E, KC_F,
+        KC_G, KC_H, KC_I,
+        KC_J, KC_K, KC_L
+    )
+};${keymapOledText}
+${keymapREText}`;
+        rulesText = `${rulesOLEDText}${rulesREText}`;
+        configText = `${configOledText}${configREText}`;
+
+
       }
+      
+      setup();
+      setContent();
       function setContent() {
         keyboard.textContent = keyboardText;
+        keymap.textContent = keymapText;
+        rules.textContent = rulesText;
+        config.textContent = configText;
       }
       setContent();
       

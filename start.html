@@ -119,7 +119,7 @@
       font-weight: 700;
     }
     .npbuts {
-      position: absolute;
+      position: fixed;
       width: 99%;
       bottom: 70px;
     }
@@ -133,7 +133,7 @@
     }
     #next {
       background-color: rgb(32, 173, 13);
-      position: absolute;
+      position: fixed;
       right: 10px;
       margin-left: auto;
       margin-right: 15px;
@@ -141,7 +141,7 @@
     
     #prev {
       background-color: rgb(216, 59, 221);
-      position: absolute;
+      position: fixed;
       left: 10px;
       margin-right: auto;
       margin-left: 15px;
@@ -201,7 +201,7 @@
           <div>
             <label for="keebname">What's your keyboard's name?</label>
             <input type="text" name="keebname" id="keebname">
-            <label for="microcontroller">What's its microcontroller? If you don't see yours here, select RP2040.<br>We'll get to this again later.</label>
+            <label for="microcontroller">What's its microcontroller? If you don't see yours here, select none of the above.</label>
             <select name="microcontroller" id="microcontroller">
               <option value="rp2040">RP2040</option>
               <option value="caterina">ATmega32u4</option>
@@ -214,6 +214,7 @@
               <option value="nrf-dfu">Nordic nRF52840</option>
               <option value="rp2040">Seeed Xiao (RP2040)</option>
               <option value="samd">Seeed Xiao (SAMD21)</option>
+              <option value="none">None of the Above</option>
             </select>
           </div>
           
@@ -249,10 +250,11 @@ const links = [
       const thislink = 1;
 
       function setSettings() {
-        localStorage.setItem("keynum", document.getElementById("keynum").valueAsNumber);
 
         localStorage.setItem("keebname", document.getElementById("keebname").value);
         localStorage.setItem("microcontroller", document.getElementById("microcontroller").value);
+
+        localStorage.setItem("keynum", document.getElementById("keynum").valueAsNumber);
         
         localStorage.setItem("matcol", document.getElementById("matcol").valueAsNumber);
         
@@ -260,12 +262,22 @@ const links = [
       }
 
       async function prev() {
-        setSettings();
-        window.location.href = links[thislink-1];
+        if (document.getElementById("matcol").valueAsNumber > 100) {
+          alert("Hey buddy you have WAY too many columns/rows/keys!! Less please!!");
+        }
+        else {
+          setSettings();
+          window.location.href = links[thislink-1];
+        }
       }
       async function next() {
-        setSettings();
-        window.location.href = links[thislink+1];
+        if (document.getElementById("matcol").valueAsNumber > 100) {
+          alert("Hey buddy you have WAY too many columns/rows/keys!! Less please!!");
+        }
+        else {
+          setSettings();
+          window.location.href = links[thislink+1];
+        }
       }
       async function setup() {
         document.getElementById("keebname").value = localStorage.getItem("keebname");
@@ -275,9 +287,18 @@ const links = [
         
         document.getElementById("matrow").value = localStorage.getItem("matrow");
       }
+      
       window.addEventListener('beforeunload', (event) => {
-        setSettings();
+        if (document.getElementById("matcol").valueAsNumber > 100) {
+          event.preventDefault();
+          event.returnValue = '';
+          return 'Hey buddy you have WAY too many columns/rows/keys!! Less please!!';
+        }
+        else {
+          setSettings();
+        }
       });
+      
       setup();
     </script>
   </body>

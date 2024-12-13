@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>EasyQMK - Rotary Encoder</title>
+    <title>EasyQMK - Uploading</title>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script> -->
 
@@ -219,41 +219,17 @@
       </div>
 
       <div class="inputs">
-        <span id="welcome">Rotary Encoder Setup</span>
-
-        <div id="warn">
-          Uh oh! Looks like you didn't select the rotary encoder in the previous step! Please
-          go back and select it if you'd like to use one. If you aren't
-          using it, keep on reading. ;)
-        </div>
-        <h3>Note:</h3>
-        <p>I'm effectively copying this guide from the amazing source at <a href="https://docs.qmk.fm/features/encoders">https://docs.qmk.fm/features/encoders</a>. It has all the information you need, and more, so feel free to read that guide instead. However, I do explain some things it doesn't.</p>
-
-        <p>Firstly, add <code class="language-javascript">ENCODER_ENABLE = yes</code> to your rules.mk file, and</p>
-        <pre><code class="language-c">#define ENCODER_A_PINS { D12 }
-#define ENCODER_B_PINS { D13 }</code></pre> to your config.h file.
-        <p>These A and B pins are the pins from the schematic. Hopefully you know these! Look at your schematic and determine which microcontroller pins are connected to the A and B labeled pins of the rotary encoder. The D before the pin number might be replaced with G or B, depending on your controller. For RP2040 it's D.</p>
-        <p>If you want to flip the encoder's direction, use <code class="language-c">#define ENCODER_DIRECTION_FLIP</code>. To lessen or greaten the sensitivity, decrease or increase <code class="language-c">#define ENCODER_RESOLUTION 4</code>. The higher the number, the lower sensitivity.</p>
-        <p><br>Alright, last thing. By default, the encoder is configured to be a volume knob, changing the volume of the computer it's hooked up to. To make it do something, frankly, more useful when turned, check out the code below.<br>Remember that the rotary encoder's button is just a button like the others, commonly defined in the matrix.</p>
-        <p>For keymap.c:</p>
-        <pre class="large"><code class="language-c">bool encoder_update_user(uint8_t index, bool clockwise) {
-  if (index == 0) { // If you have multiple encoders, duplicate this if function and set the index to the next number.
-    if (clockwise) {
-      tap_code(KC_PGDN);
-    } else {
-      tap_code(KC_PGUP); // The QMK keycode value of choice. List at https://docs.qmk.fm/keycodes
-    } // More info at the Rotary Encoder page
-  }
-
-  return false;
-}</code></pre>
+        <span id="welcome">Uploading!!!</span>
+        <h1>You made it!</h1>
+        <p>The final step of QMK firmware is quite simple. The first thing you need to do is plug in your keyboard while holding down the boot button.</p>
+        <p>This is usually a small black button on the microcontroller, but you may need to temporarily short two pads. Alternatively, if bootmagic is supported on your keyboard, holding down the key at (0,0) on the matrix will put the keyboard into bootloader mode.</p>
+        <p>However you do it, hold the button/connection for a few seconds after plugging in. In a moment, a folder will pop open.</p>
         
         <p>With that, your rotary encoder is configured! Read the guide above for more information and uses.</p>
       </div>
 
       <div class="npbuts">
         <button id="prev" onclick="prev()">Previous</button>
-        <button id="next" onclick="next()">Next</button>
       </div>
     </div>
 
@@ -265,29 +241,19 @@
         "./extras.html", //3
         "./shift.html", //4
         "./oled.html", //5
-        "./rotenc.html", //6 <--- You are here (thislink)
+        "./rotenc.html", //6
         "./compile.html", //7
-        "./upload.html", //8
+        "./upload.html", //8 <--- You are here (thislink)
       ];
 
-      const thislink = 6;
-
-      const enabled = localStorage.getItem("Rotenc");
-      console.log(enabled);
-      const warn = document.getElementById("warn");
+      const thislink = 8;
 
       function prev() {
         window.location.href = links[thislink - 1];
       }
-      function next() {
-        window.location.href = links[thislink + 1];
-      }
+
       function setup() {
-        if (enabled == "true") {
-          warn.style.display = "none";
-        } else {
-          warn.style.display = "block";
-        }
+
       }
       setup();
     </script>
