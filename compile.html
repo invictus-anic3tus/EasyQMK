@@ -478,18 +478,56 @@ ${keymapREText}`;
         matrixEntries = [];
         
         // Setup Matrix (separate for function for readability)
-        for (k = 0; k < matcol; k++) {
-          for (l = 0; l < matrow; l++) {
+        for (k = 0; k < matrow; k++) {
+          for (l = 0; l < matcol; l++) {
             let ks = k.toString();
             let ls = l.toString();
-            let lk = ls + "-" + ks;
+            let kl = ks + "-" + ls;
             // console.log(lk);
-            allKeys[lk] = localStorage.getItem(lk);
-            matrixEntries.push({ "matrix": [l,k], "x": k, "y": l });
+            allKeys[kl] = localStorage.getItem(kl);
+            matrixEntries.push({ "matrix": [k,l], "x": l, "y": k });
             //             {"matrix": [row,col], "x": col, "y": row}
           }
         }
         console.log(allKeys);
+        console.log(matrixEntries);
+        keyboardText =`{
+    "manufacturer": "********YOUR NAME HERE**********",
+    "keyboard_name": "${keebname}",
+    "maintainer": "*******GITHUB USERNAME HERE*******",
+    "bootloader": "${altBootloader}",
+    "diode_direction": "${diode_direction}",
+    "features": {
+        "bootmagic": ${bootmagic},
+        "command": false,
+        "console": false,
+        "extrakey": true,
+        "mousekey": false,
+        "nkro": true
+    },
+    "matrix_pins": {
+        "cols": ${JSON.stringify(colPins, null)},
+        "rows": ${JSON.stringify(rowPins, null)} 
+    },
+    "processor": "${processor}",
+    "url": "(optional, leave blank otherwise)URL to an info page, i.e https://github.com/exampleuser/example, https://example.com.",
+    "usb": {
+        "device_version": "1.0.0",
+        "pid": "0x0000",
+        "vid": "0xFEED"
+    },
+    "layouts": {
+        "LAYOUT_ortho_${matrow}x${matcol}": {
+            "layout": [
+                ${(JSON.stringify(matrixEntries, null))
+                  .replace(/},/g, '},\n                ') // Replace ending }, with }, and then some tabs
+                  .replace(/\[{/g, '{') // Replace [{ with { at beginning of string
+                  .slice(0, -1)/* Remove last character, the unnecesary ]*/}
+            ]
+        }
+    }
+}
+`;
 
         // Remove matrix entries without keys
 
@@ -507,7 +545,8 @@ ${keymapREText}`;
         // Setup keymap.c, rules.mk, config.h
 
         if (oled == "128x64" || oled == "128x32") {
-          keymapOledText = `#ifdef OLED_ENABLE
+          keymapOledText = `
+#ifdef OLED_ENABLE
 
 bool oled_task_user() {
     oled_clear();

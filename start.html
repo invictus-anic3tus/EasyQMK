@@ -186,7 +186,7 @@
       <div class="inputs">
         <span id="welcome">Getting Started</span>
         <p>
-          For the first step, you'll need to input some base info about your keyboard, as well as the number of keys your keyboard has, and the matrix size.
+          For the first step, you'll need to input some base info about your keyboard, as well as the number of keys your keyboard has, and the matrix size. You can't use more than 100 columns and 100 rows, however that is WAY enough keys for you so don't come to me for your 101 column keyboard.
         </p>
         <div id="inputscontain">
           <div>
@@ -249,6 +249,10 @@ const links = [
 
       const thislink = 1;
 
+      var matcol;
+      var matrow;
+      var keynum;
+
       function setSettings() {
 
         localStorage.setItem("keebname", document.getElementById("keebname").value);
@@ -262,8 +266,11 @@ const links = [
       }
 
       async function prev() {
-        if (document.getElementById("matcol").valueAsNumber > 100) {
-          alert("Hey buddy you have WAY too many columns/rows/keys!! Less please!!");
+        matcol = document.getElementById("matcol").valueAsNumber;
+        matrow = document.getElementById("matrow").valueAsNumber;
+        keynum = document.getElementById("keynum").valueAsNumber;
+        if (matcol > 100 || matrow > 100 || keynum > matcol * matrow) {
+          alert("Hey buddy you have too many columns/rows/keys!! Less please!! Check if you have more keys than your matrix allows.");
         }
         else {
           setSettings();
@@ -271,8 +278,11 @@ const links = [
         }
       }
       async function next() {
-        if (document.getElementById("matcol").valueAsNumber > 100) {
-          alert("Hey buddy you have WAY too many columns/rows/keys!! Less please!!");
+        matcol = document.getElementById("matcol").valueAsNumber;
+        matrow = document.getElementById("matrow").valueAsNumber;
+        keynum = document.getElementById("keynum").valueAsNumber;
+        if (matcol > 100 || matrow > 100 || keynum > matcol * matrow) {
+          alert("Hey buddy you have too many columns/rows/keys!! Less please!! Check if you have more keys than your matrix allows.");
         }
         else {
           setSettings();
@@ -289,13 +299,17 @@ const links = [
       }
       
       window.addEventListener('beforeunload', (event) => {
-        if (document.getElementById("matcol").valueAsNumber > 100) {
+        matcol = document.getElementById("matcol").valueAsNumber;
+        matrow = document.getElementById("matrow").valueAsNumber;
+        keynum = document.getElementById("keynum").valueAsNumber;
+        if (matcol > 100 || matrow > 100 || keynum > matcol * matrow) {
           event.preventDefault();
           event.returnValue = '';
-          return 'Hey buddy you have WAY too many columns/rows/keys!! Less please!!';
+          alert("Hey buddy you have too many columns/rows/keys!! Less please!! Check if you have more keys than your matrix allows.");
         }
         else {
           setSettings();
+          window.location.href = links[thislink+1];
         }
       });
       

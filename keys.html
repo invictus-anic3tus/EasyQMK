@@ -369,47 +369,78 @@
 
         setVars();
 
-        window.location.href = links[thislink + 1];
+        // window.location.href = links[thislink + 1];
       }
 
       function setVars() {
         localStorage.setItem("diode_direction", document.getElementById("diode_direction").value);
 
-        for (i = 0; i < selects.length; i++) {
-          if (selects[i]) {
-            let iString = i.toString();
-            let iRow = "";
-            let iCol = "";
-            if (iString.length == 1) {
-              iString = "0" + iString;
-            }
-            if (i == 999) {
-              iString = "010";
-            }
+        // Borken code <3
 
-            iRow = iString.slice(0,matrow.length);
-            iCol = iString.slice(matrow.length,matcol.length + matrow.length);
-            iBoth = iRow + "-" + iCol;
-            console.log(iBoth);
+        // for (i = 0; i < selects.length; i++) {
+        //   if (selects[i]) {
+        //     let iString = i.toString();
+        //     let iRow = "";
+        //     let iCol = "";
+        //     if (iString.length == 1) {
+        //       iString = "0" + iString;
+        //     }
+        //     if (i == 999) {
+        //       iString = "010";
+        //     }
+
+        //     iRow = iString.slice(0,matrow.length);
+        //     iCol = iString.slice(matrow.length,matcol.length + matrow.length);
+        //     iBoth = iRow + "-" + iCol;
+        //     console.log(iBoth);
             
             
 
-            if (checks[i].checked) {
-              if (iBoth == "0-10") {
-                localStorage.setItem(iBoth, selects[999].value);
-                console.log(localStorage.getItem(iBoth), "YO YO YO");
-                continue;
+        //     if (checks[i].checked) {
+        //       if (iBoth == "0-10") {
+        //         localStorage.setItem(iBoth, selects[999].value);
+        //         console.log(localStorage.getItem(iBoth), "YO YO YO");
+        //         continue;
+        //       }
+        //       localStorage.setItem(iBoth, selects[i].value);
+        //       console.log(localStorage.getItem(iBoth));
+        //     } else {
+        //       if (iBoth == "0-10") {
+        //         localStorage.setItem(iBoth, "NONE");
+        //         console.log(localStorage.getItem(iBoth), "hardy har har");
+        //         continue;
+        //       }
+        //       localStorage.setItem(iBoth, "NONE");
+        //       console.log(localStorage.getItem("keyAt" + i));
+        //     }
+        //   }
+        // }
+
+        for (i = 0; i < matrow; i++) {
+          for (j = 0; j < matcol; j++) {
+            let is = i.toString();
+            let js = j.toString();
+            let ij = is + js;
+            let ijn = parseInt(ij);
+            let ijf = is + "-" + js;
+            if (ijf == "0-10") {
+              if (checks[999].checked) {
+                localStorage.setItem(ijf, selects[999].value);
+                console.log(ijf, localStorage.getItem(ijf), "YO YO YO");
               }
-              localStorage.setItem(iBoth, selects[i].value);
-              console.log(localStorage.getItem(iBoth));
-            } else {
-              if (iBoth == "0-10") {
-                localStorage.setItem(iBoth, "NONE");
-                console.log(localStorage.getItem(iBoth), "hardy har har");
-                continue;
+              else {
+                localStorage.setItem(ijf, "NONE");
+                console.log(ijf, localStorage.getItem(ijf), "DISABLED***************");
               }
-              localStorage.setItem(iBoth, "NONE");
-              console.log(localStorage.getItem("keyAt" + i));
+              continue;
+            }
+            if (checks[ijn].checked) {
+              localStorage.setItem(ijf, selects[ijn].value);
+              console.log(ijf, localStorage.getItem(ijf), "YO YO YO");
+            }
+            else {
+              localStorage.setItem(ijf, "NONE");
+              console.log(ijf, localStorage.getItem(ijf), "DISABLED***************");
             }
           }
         }
