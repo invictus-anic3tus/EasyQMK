@@ -156,8 +156,8 @@
 
     select {
       font-size: large;
-      width: 150px;
-      height: 50px;
+      width: 120px;
+      height: 30px;
       border-radius: 5px;
     }
   </style>
@@ -458,6 +458,9 @@
           rhcells[i].innerHTML = "<b>Row " + i + "</b>";
           for (let k = 0; k < matcol; k++) {
             let keyIndex = parseInt(i.toString() + k.toString());
+            let isChecked = localStorage.getItem(i.toString() + "-" + k.toString()) !== "NONE";
+            let selectValue = localStorage.getItem(i.toString() + "-" + k.toString());
+            console.log(i.toString() + "-" + k.toString() + ": " + selectValue);
 
 
             if (keyIndex == 10 && specialTen == false) { // Special case! How fun.
@@ -466,7 +469,7 @@
               selects[999] = document.createElement("select");
               checks[999] = document.createElement("input");
               checks[999].type = "checkbox";
-              checks[999].checked = true;
+              checks[999].checked = isChecked;
 
               values.forEach((option) => {
                 let optionElement = document.createElement("option");
@@ -474,6 +477,15 @@
                 optionElement.text = option.text;
                 selects[999].appendChild(optionElement);
               });
+
+              if (isChecked) {
+                selects[999].value = selectValue;
+              }
+              else {
+                selects[999].value = selectValue;
+                checkedBoxes -= 1;
+                selects[999].style.backgroundColor = "gray";
+              }
 
               cells[k].appendChild(selects[999]);
               cells[k].appendChild(checks[999]);
@@ -488,7 +500,7 @@
             selects[keyIndex] = document.createElement("select");
             checks[keyIndex] = document.createElement("input");
             checks[keyIndex].type = "checkbox";
-            checks[keyIndex].checked = true;
+            checks[keyIndex].checked = isChecked;
 
             values.forEach((option) => {
               let optionElement = document.createElement("option");
@@ -496,6 +508,15 @@
               optionElement.text = option.text;
               selects[keyIndex].appendChild(optionElement);
             });
+            
+            if (isChecked) {
+              selects[keyIndex].value = selectValue;
+            }
+            else {
+              selects[keyIndex].value = selectValue;
+              checkedBoxes -= 1;
+              selects[keyIndex].style.backgroundColor = "gray";
+            }
 
             cells[k].appendChild(selects[keyIndex]);
             cells[k].appendChild(checks[keyIndex]);
@@ -509,8 +530,10 @@
 
           checks[i].addEventListener("change", function () {
             if (this.checked) {
+              selects[i].style.backgroundColor = "white";
               checkedBoxes++;
             } else if (!this.checked) {
+              selects[i].style.backgroundColor = "gray";
               checkedBoxes += -1;
             }
             checkChecks(this);

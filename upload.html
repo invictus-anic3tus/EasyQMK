@@ -221,11 +221,30 @@
       <div class="inputs">
         <span id="welcome">Uploading!!!</span>
         <h1>You made it!</h1>
-        <p>The final step of QMK firmware is quite simple. The first thing you need to do is plug in your keyboard while holding down the boot button.</p>
-        <p>This is usually a small black button on the microcontroller, but you may need to temporarily short two pads. Alternatively, if bootmagic is supported on your keyboard, holding down the key at (0,0) on the matrix will put the keyboard into bootloader mode.</p>
-        <p>However you do it, hold the button/connection for a few seconds after plugging in. In a moment, a folder will pop open.</p>
+
+        <p>Welcome to the final step. Now, there are two main methods of uploading, or flashing, firmware. The first is the one we'll be focusing on, the Command Line Interface (CLI). If you have an RP2040, however, you can use the Drag-and-Drop method instead if you'd like.</p>
+
+        <p>No matter which method you use, you must first put your microcontroller into bootloader mode. The first thing you need to do is plug in your keyboard while holding down the boot/reset button.</p>
+        <p>This is usually a small black button on the microcontroller, but you may need to temporarily short two pads.<br>Alternatively, if bootmagic is supported on your keyboard, (if bootmagic was set to true in the Compile step,) holding down the key at (0,0) on the matrix will put the keyboard into bootloader mode.</p>
+        <p>However you do it, hold the button/connection for a few seconds after plugging in.</p>
+
+        <h1>Command Line Interface (CLI)</h1>
+
+        <p>Command Line Interface is an option supported by the vast majority of QMK-compatable bootloaders. After putting your device into bootloader mode, open QMK MSYS.</p>
+        <p>Inside, run one simple command: <code class="language-c">qmk flash -kb &ltkeyboard&gt -km default</code>, again replacing <code class="language-c">&ltkeyboard&gt</code> with the name of the main file you created before.</p>
+        <p>You're done! Skip to the bottom.</p>
+
+        <h1>Drag-and-Drop (RP2040 only!)</h1>
+
+        <p>The drag-and-drop method of flashing is simple and fast, but only completely supported by RP2040 processors. If you have an RP2040, this method is for you.</p>
+        <p>When you plugged in your bootloader, a drive file may have popped up. If it didn't, look in your file system for a drive named <code class="language-c">RPI-RP2</code> or something similar.</p>
+        <p>Inside this file, <b>drag and drop</b> the .uf2 compile file into it. It will automagically close, and your keyboard will be flashed! Congrats.</p>
+
+        <h1>Farewell!</h1>
         
-        <p>With that, your rotary encoder is configured! Read the guide above for more information and uses.</p>
+        <p>With that, your keyboard is done! I'm glad you used EasyQMK to code your custom keyboard. If you have any questions, comments, or suggestions, go to <a href="https://invictus-anic3tus.github.io/MathSite/contact">my other project's contact page</a> to email me.</p>
+        <p>Well, that's it. Hope to see you again!</p>
+        <p>~ Anicetus</p>
       </div>
 
       <div class="npbuts">

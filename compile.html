@@ -197,7 +197,7 @@
     }
   </style>
 
-  <body style="background-color: rgb(7, 3, 22); margin-bottom: 200px;">
+  <body style="background-color: rgb(7, 3, 22); margin-bottom: 200px">
     <div class="logodiv">
       <h3>By <a href="https://github.com/invictus-anic3tus">Anicetus</a></h3>
     </div>
@@ -223,42 +223,124 @@
       <div class="inputs">
         <span id="welcome">Compile!</span>
 
-        <p>Woo! We're finally here. All the data has been collected, (well, almost all of it.) and all the extras set up.</p>
-        <p>To begin compiling, first you'll need to install QMK MSYS, the firmware to use for the project.</p>
+        <p>
+          Woo! We're finally here. All the data has been collected, (well,
+          almost all of it.) and all the extras set up.
+        </p>
+        <p>
+          To begin compiling, first you'll need to install QMK MSYS, the
+          firmware to use for the project.
+        </p>
         <h2 id="windows">Windows</h2>
-        <p>Install the .exe file for QMK MSYS from the latest release <a href="https://github.com/qmk/qmk_distro_msys/releases/tag/1.10.0">here</a></p>
+        <p>
+          Install the .exe file for QMK MSYS from the latest release
+          <a href="https://github.com/qmk/qmk_distro_msys/releases/tag/1.10.0"
+            >here</a
+          >
+        </p>
         <h2 id="mac">Mac</h2>
-        <p>Mac installation is a bit more complicated; first install Homebrew from <a href="https://brew.sh">https://brew.sh</a>. Don't worry, QMK uses this method on it's official website (<a href="https://docs.qmk.fm/newbs_getting_started">https://docs.qmk.fm</a>)</p>
-        <p>Next, install QMK MSYS in your terminal by running <code class="language-c">brew install qmk/qmk/qmk</code>.</p>
+        <p>
+          Mac installation is a bit more complicated; first install Homebrew
+          from <a href="https://brew.sh">https://brew.sh</a>. Don't worry, QMK
+          uses this method on it's official website (<a
+            href="https://docs.qmk.fm/newbs_getting_started"
+            >https://docs.qmk.fm</a
+          >)
+        </p>
+        <p>
+          Next, install QMK MSYS in your terminal by running
+          <code class="language-c">brew install qmk/qmk/qmk</code>.
+        </p>
         <h2 id="linux">Linux</h2>
-        <p>First, be sure that you have Python and Git installed. It's very likely you do, but if you don't, install on Debian/Ubuntu/Devuan with <code class="language-c">sudo apt install -y git python3-pip</code></p>
-        <p>Now install QMK MSYS with <code class="language-c">python3 -m pip install --user qmk</code></p>
+        <p>
+          First, be sure that you have Python and Git installed. It's very
+          likely you do, but if you don't, install on Debian/Ubuntu/Devuan with
+          <code class="language-c">sudo apt install -y git python3-pip</code>
+        </p>
+        <p>
+          Now install QMK MSYS with
+          <code class="language-c">python3 -m pip install --user qmk</code>
+        </p>
+
+        <h2>Setting up QMK MSYS</h2>
+
+        <p>Next, open the new QMK MSYS app that you installed. It should be a terminal. Run the simple command <code class="language-c">qmk setup</code>. If it asks to clone <code class="language-c">qmk_firmware</code>, select Y.</p>
 
         <h1>Setting up the keyboard</h1>
-        <p>Great! Now that you've got QMK MSYS installed, we can move on to the next step.</p>
-        <p>First, you need to make a file in a specific spot in the QMK folders.</p><p>Navigate to your <code class="language-c">qmk_firmware</code> folder which was made when you installed QMK MSYS, usually in your user folder. It should have many folders inside, such as .build, .git, data, docs, layouts, and keyboards. First ensure you're in the right folder, then navigate to the keyboards folder inside. This folder will have a ton of stuff in it. More specifically, all the preset keyboards.</p><p>Inside the keyboards folder, make a new folder. Give it the name of your keyboard, except DO NOT include spaces, special characters, or capital letters. This is important!</p>
-        <p>Inside your new keyboard folder, create <code class="language-c">keyboard.json</code> and <code class="language-c">readme.md</code> files. Then make a folder named "keymaps" and inside <i>that</i>, a folder named "default". Finally, create <code class="language-c">keymap.c</code>, <code class="language-c">rules.mk</code>, and <code class="language-c">config.h</code> inside the "default" folder.</p>
+        <p>
+          Great! Now that you've got QMK MSYS installed, we can move on to the
+          next step.
+        </p>
+        <p>
+          First, you need to make a file in a specific spot in the QMK folders.
+        </p>
+        <p>
+          Navigate to your <code class="language-c">qmk_firmware</code> folder
+          which was made when you setup QMK MSYS, usually in your user
+          folder. It should have many folders inside, such as .build, .git,
+          data, docs, layouts, and keyboards. First ensure you're in the right
+          folder, then navigate to the keyboards folder inside. This folder will
+          have a ton of stuff in it. More specifically, all the preset
+          keyboards.
+        </p>
+        <p>
+          Inside the keyboards folder, make a new folder. Give it the name of
+          your keyboard, except DO NOT include spaces, special characters, or
+          capital letters. This is important!
+        </p>
+        <p>
+          Inside your new keyboard folder, create
+          <code class="language-c">keyboard.json</code> and
+          <code class="language-c">readme.md</code> files. Then make a folder
+          named "keymaps" and inside <i>that</i>, a folder named "default".
+          Finally, create <code class="language-c">keymap.c</code>,
+          <code class="language-c">rules.mk</code>, and
+          <code class="language-c">config.h</code> inside the "default" folder.
+        </p>
 
-        <p>Whew! That was a lot of file-making. Now, you're going to simply paste code into each file. Firstly, however, in the readme.md, write whatever you want inside to provide information about your keyboard. Maybe what inspired it, what it's all about. You can leave it blank if you want.</p>
-        <p>But one thing you <i>can't</i> leave blank is the keyboard.json file. Inside, paste:</p>
+        <p>
+          Whew! That was a lot of file-making. Now, you're going to simply paste
+          code into each file. Firstly, however, in the readme.md, write
+          whatever you want inside to provide information about your keyboard.
+          Maybe what inspired it, what it's all about. You can leave it blank if
+          you want.
+        </p>
+        <p>
+          But one thing you <i>can't</i> leave blank is the keyboard.json file.
+          Inside, paste:
+        </p>
         <pre><code id="keyboard.json" class="language-c">Hi
 Mom</code></pre>
 
-        <p>Gosh, that's a lot of code! Remember to fill in the placeholders I put in for you. Anyways, the next file we'll be editing is keymap.c. Open it up and paste in:</p>
+        <p>
+          Gosh, that's a lot of code! Remember to fill in the placeholders I put
+          in for you. Anyways, the next file we'll be editing is keymap.c. Open
+          it up and paste in:
+        </p>
         <pre><code id="keymap.c" class="language-c"></code></pre>
-        
+
         <p>The end is near! Now it's time for rules.mk, the shortest yet:</p>
         <pre><code id="rules.mk" class="language-c"></code></pre>
         <p>If you want to add debugging for OLED, RE, etc. add these lines:</p>
         <pre><code class="language-c">CONSOLE_ENABLE = yes
 DEBUG_MATRIX_SCAN_RATE = yes</code></pre>
 
-        <p>Noice! Time for the very last file!! Hop into config.h and paste this in.</p>
-        
+        <p>
+          Noice! Time for the very last file!! Hop into config.h and paste this
+          in.
+        </p>
+
         <pre><code id="config.h" class="language-c"></code></pre>
 
-        <p>Wow! We're done coding! See, it's not that hard. Well. It was a pain for <em>me</em> to code, I can tell ya that. Anyways, there's only one very short step left. Head on over to <a href="./upload.html">upload!</a></p>
-        
+        <p>Alright!!! We've finished coding. It was a lot, I know, but now comes the easy part.</p>
+        <p>Remember when we installed QMK MSYS? Well now it's time to open the app. Open QMK MSYS and run the command <code class="language-c">qmk compile -kb &ltkeyboard&gt -km default</code>, replacing <code class="language-c">&ltkeyboard&gt</code> with the name of the main file you created earlier, the one that contains keyboard.json and the keymaps folder.</p><p>Running this should clone a file to the qmk_firmware folder from earlier. It might be a .hex, .bin, or .uf2. Whatever it is, remember its location for next step!</p>
+
+        <p>
+          Wow! We're done compiling! See, it's not that hard. Well. It was a pain
+          for <em>me</em> to code, I can tell ya that. Anyways, there's only one
+          very short step left. Head on over to
+          <a href="./upload.html">upload!</a>
+        </p>
       </div>
 
       <div class="npbuts">
@@ -280,30 +362,32 @@ DEBUG_MATRIX_SCAN_RATE = yes</code></pre>
       const matcol = localStorage.getItem("matcol");
       const matrow = localStorage.getItem("matrow");
       const keynum = localStorage.getItem("keynum");
-      var matrixEntries = [ // Example 3x4 Matrix
-        {"matrix": [0,0], "x": 0, "y": 0},
-        {"matrix": [0, 1], "x": 1, "y": 0},
-        {"matrix": [0, 2], "x": 2, "y": 0},
-        {"matrix": [1, 0], "x": 0, "y": 1},
-        {"matrix": [1, 1], "x": 1, "y": 1},
-        {"matrix": [1, 2], "x": 2, "y": 1},
-       {"matrix": [2, 0], "x": 0, "y": 2},
-        {"matrix": [2, 1], "x": 1, "y": 2},
-        {"matrix": [2, 2], "x": 2, "y": 2},
-        {"matrix": [3, 0], "x": 0, "y": 3},
-         {"matrix": [3, 1], "x": 1, "y": 3},
-        {"matrix": [3, 2], "x": 2, "y": 3}
+      var matrixEntries = [
+        // Example 3x4 Matrix
+        { matrix: [0, 0], x: 0, y: 0 },
+        { matrix: [0, 1], x: 1, y: 0 },
+        { matrix: [0, 2], x: 2, y: 0 },
+        { matrix: [1, 0], x: 0, y: 1 },
+        { matrix: [1, 1], x: 1, y: 1 },
+        { matrix: [1, 2], x: 2, y: 1 },
+        { matrix: [2, 0], x: 0, y: 2 },
+        { matrix: [2, 1], x: 1, y: 2 },
+        { matrix: [2, 2], x: 2, y: 2 },
+        { matrix: [3, 0], x: 0, y: 3 },
+        { matrix: [3, 1], x: 1, y: 3 },
+        { matrix: [3, 2], x: 2, y: 3 },
       ]; // {"matrix": [row,col], "x": col, "y": row}
       var allKeys = {};
+      var allKeysPrint;
       var colPins = [];
       var rowPins = [];
       var bootmagic = false;
-      var processor = "atmega32u4"
+      var processor = "atmega32u4";
       var altBootloader = bootloader;
 
       // setup();
 
-      var keyboardText =`{
+      var keyboardText = `{
     "manufacturer": "********YOUR NAME HERE**********",
     "keyboard_name": "${keebname}",
     "maintainer": "*******GITHUB USERNAME HERE*******",
@@ -331,19 +415,21 @@ DEBUG_MATRIX_SCAN_RATE = yes</code></pre>
     "layouts": {
         "LAYOUT_ortho_${matrow}x${matcol}": {
             "layout": [
-                ${(JSON.stringify(matrixEntries, null))
-                  .replace(/},/g, '},\n                ') // Replace ending }, with }, and then some tabs
-                  .replace(/\[{/g, '{') // Replace [{ with { at beginning of string
-                  .slice(0, -1)/* Remove last character, the unnecesary ]*/}
+                ${
+                  JSON.stringify(matrixEntries, null)
+                    .replace(/},/g, "},\n                ") // Replace ending }, with }, and then some tabs
+                    .replace(/\[{/g, "{") // Replace [{ with { at beginning of string
+                    .slice(0, -1) /* Remove last character, the unnecesary ]*/
+                }
             ]
         }
     }
 }
 `;
 
-      var keymapOledText = '';
-      var keymapREText = '';
-      var keymapText =`#include QMK_KEYBOARD_H
+      var keymapOledText = "";
+      var keymapREText = "";
+      var keymapText = `#include QMK_KEYBOARD_H
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT_ortho_3x4(
@@ -354,16 +440,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };${keymapOledText}
 ${keymapREText}`;
-      
-      var rulesOLEDText = '';
-      var rulesREText = '';
+
+      var rulesOLEDText = "";
+      var rulesREText = "";
       var rulesText = `${rulesOLEDText}${rulesREText}`;
 
-
-      var configOledText = '';
-      var configREText = '';
+      var configOledText = "";
+      var configREText = "";
       var configText = `${configOledText}${configREText}`;
-      
+
       const links = [
         "./index.html", //0
         "./start.html", //1
@@ -385,7 +470,6 @@ ${keymapREText}`;
         window.location.href = links[thislink + 1];
       }
       function setup() {
-
         // Set processor and bootmagic
         switch (bootloader) {
           case "rp2040":
@@ -400,46 +484,47 @@ ${keymapREText}`;
             break;
           case "halfkay":
             processor = "imxrt1062";
-          
+
             bootmagic = true;
             break;
           case "halfkay-2":
             processor = "atmega32u4";
-          
+
             bootmagic = true;
             break;
           case "samd":
             processor = "samd21";
-          
+
             bootmagic = true;
             break;
           case "nrf-dfu":
             processor = "nrf52840";
-          
+
             bootmagic = true;
             break;
           case "stm32-dfu":
             processor = "stm32l432";
-          
+
             bootmagic = false;
             break;
           case "stm32-dfu-f103":
             processor = "stm32f103";
-          
+
             bootmagic = false;
             break;
           case "stm32duino":
             processor = "stm32f103";
-          
+
             bootmagic = false;
             break;
           case "espressif-dfu":
             processor = "espressif";
-          
+
             bootmagic = false;
             break;
           case "none":
-            processor = "YOUR PROCESSOR HERE (you selected none of the above on the first step.)"
+            processor =
+              "YOUR PROCESSOR HERE (you selected none of the above on the first step.)";
 
             console.log("hi");
 
@@ -456,27 +541,32 @@ ${keymapREText}`;
         } else if (altBootloader == "stm32-dfu-f103") {
           altBootloader = "stm32-dfu";
         } else if (altBootloader == "none") {
-          altBootloader = "INPUT BOOTLOADER HERE! You selected none of the above at the first step."
+          altBootloader =
+            "INPUT BOOTLOADER HERE! You selected none of the above at the first step.";
         }
-        
+
         // Setup Column and Row Pin definitions
         for (i = 0; i < matcol; i++) {
           if (i + 1 == matcol) {
-            colPins.push("Replace these pin values (these strings included) with the pins connected to your matrix rows/columns.");
+            colPins.push(
+              "Replace these pin values (these strings included) with the pins connected to your matrix rows/columns."
+            );
             continue;
           }
-          colPins.push("D"+i);
+          colPins.push("D" + i);
         }
         for (j = 0; j < matrow; j++) {
           if (j + 1 == matrow) {
-            rowPins.push("The D before each number MUST be replaced by the pin indicator of your microcontroller.");
+            rowPins.push(
+              "The D before each number MUST be replaced by the pin indicator of your microcontroller."
+            );
             continue;
           }
-          rowPins.push("D"+(j+parseInt(matrow)));
+          rowPins.push("D" + (j + parseInt(matrow)));
         }
 
         matrixEntries = [];
-        
+
         // Setup Matrix (separate for function for readability)
         for (k = 0; k < matrow; k++) {
           for (l = 0; l < matcol; l++) {
@@ -485,13 +575,31 @@ ${keymapREText}`;
             let kl = ks + "-" + ls;
             // console.log(lk);
             allKeys[kl] = localStorage.getItem(kl);
-            matrixEntries.push({ "matrix": [k,l], "x": l, "y": k });
+            matrixEntries.push({ matrix: [k, l], x: l, y: k });
             //             {"matrix": [row,col], "x": col, "y": row}
           }
         }
         console.log(allKeys);
-        console.log(matrixEntries);
-        keyboardText =`{
+
+        const breakAfter = parseInt(matcol);
+
+        allKeysPrint = Object.keys(allKeys)
+          .sort() // Ensure keys are sorted
+          .map((key) => allKeys[key]) // Extract the values
+          .map((value, index) => {
+            const isLastValue = index === Object.keys(allKeys).length - 1;
+            // Add a line break after every X values, except for the last value
+            if ((index + 1) % breakAfter === 0 && !isLastValue) {
+              return `${value},\n        `;
+            }
+            return isLastValue ? value : `${value}, `;
+          })
+          .join("")
+          .replaceAll("NONE,","     ")
+          .replaceAll("NONE","");
+
+        // console.log(matrixEntries);
+        keyboardText = `{
     "manufacturer": "********YOUR NAME HERE**********",
     "keyboard_name": "${keebname}",
     "maintainer": "*******GITHUB USERNAME HERE*******",
@@ -519,10 +627,12 @@ ${keymapREText}`;
     "layouts": {
         "LAYOUT_ortho_${matrow}x${matcol}": {
             "layout": [
-                ${(JSON.stringify(matrixEntries, null))
-                  .replace(/},/g, '},\n                ') // Replace ending }, with }, and then some tabs
-                  .replace(/\[{/g, '{') // Replace [{ with { at beginning of string
-                  .slice(0, -1)/* Remove last character, the unnecesary ]*/}
+                ${
+                  JSON.stringify(matrixEntries, null)
+                    .replace(/},/g, "},\n                ") // Replace ending }, with }, and then some tabs
+                    .replace(/\[{/g, "{") // Replace [{ with { at beginning of string
+                    .slice(0, -1) /* Remove last character, the unnecesary ]*/
+                }
             ]
         }
     }
@@ -532,15 +642,17 @@ ${keymapREText}`;
         // Remove matrix entries without keys
 
         Object.entries(allKeys).forEach(([key, value]) => {
-          console.log(key + ": " + value);
+          // console.log(key + ": " + value);
           if (value === "NONE") {
             let key1 = parseInt(key.charAt(0));
             let key2 = parseInt(key.charAt(1));
             let key12 = [key1, key2];
-            matrixEntries = matrixEntries.filter(element => JSON.stringify(element["matrix"]) != JSON.stringify(key12));
+            matrixEntries = matrixEntries.filter(
+              (element) =>
+                JSON.stringify(element["matrix"]) != JSON.stringify(key12)
+            );
           }
         });
-
 
         // Setup keymap.c, rules.mk, config.h
 
@@ -605,20 +717,15 @@ ENCODER_ENABLE = yes`;
         keymapText = `#include QMK_KEYBOARD_H
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [0] = LAYOUT_ortho_3x4(
-        KC_A, KC_B, KC_C,
-        KC_D, KC_E, KC_F,
-        KC_G, KC_H, KC_I,
-        KC_J, KC_K, KC_L
+    [0] = LAYOUT_ortho_${matrow}x${matcol}(
+        ${allKeysPrint}
     )
 };${keymapOledText}
 ${keymapREText}`;
         rulesText = `${rulesOLEDText}${rulesREText}`;
         configText = `${configOledText}${configREText}`;
-
-
       }
-      
+
       setup();
       setContent();
       function setContent() {
@@ -628,7 +735,6 @@ ${keymapREText}`;
         config.textContent = configText;
       }
       setContent();
-      
     </script>
   </body>
 </html>
