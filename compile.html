@@ -292,11 +292,11 @@
         </p>
         <p>
           Inside your new keyboard folder, create
-          <code class="language-c">keyboard.json</code>, <code class="language-c">rules.mk</code>, and
-          <code class="language-c">config.h</code> files. Then make a folder
+          <code class="language-c">keyboard.json</code>, <code class="language-c">rules.mk</code>, 
+          <code class="language-c">config.h</code>, and
+          <code class="language-c">readme.md</code> files. Then make a folder
           named "keymaps" and inside <i>that</i>, a folder named "default".
-          Finally, create <code class="language-c">keymap.c</code> and
-          <code class="language-c">readme.md</code> inside the "default" folder.
+          Finally, create <code class="language-c">keymap.c</code> inside the "default" folder.
         </p>
         <pre><code class="language-c">qmk_firmware/
 ├── keyboards/
@@ -304,10 +304,10 @@
           ├── config.h
           ├── keyboard.json
           ├── rules.mk 
+          ├── readme.md 
           └── keymaps/
                └── default/
-                    ├── keymap.c
-                    └── readme.md</code></pre>
+                    ├── keymap.c</code></pre>
         
 
         <p>
@@ -324,8 +324,9 @@
         <pre><code id="keyboard.json" class="language-c">Hi
 Mom</code></pre>
 
+        <p>Please, remember to replace the "matrix_pins" values with ACTUAL values, such as GP3 for RP2040's. You can find common microcontroller pinouts online. Some more common pin indicators (the letter before the pin) are B, PA, A, GP, and R.</p>
         <p>
-          Gosh, that's a lot of code! Remember to fill in the placeholders I put
+          Well that's a lot of code! Remember to fill in the placeholders I put
           in for you. Anyways, the next file we'll be editing is keymap.c. Open
           it up and paste in:
         </p>
@@ -559,22 +560,10 @@ ${keymapREText}`;
 
         // Setup Column and Row Pin definitions
         for (i = 0; i < matcol; i++) {
-          if (i + 1 == matcol) {
-            colPins.push(
-              "Replace these pin values (these strings included) with the pins connected to your matrix rows/columns."
-            );
-            continue;
-          }
-          colPins.push("D" + i);
+          colPins.push("Column " + i + " pin (i.e. B" + (i+2) + ")");
         }
         for (j = 0; j < matrow; j++) {
-          if (j + 1 == matrow) {
-            rowPins.push(
-              "The D before each number MUST be replaced by the pin indicator of your microcontroller."
-            );
-            continue;
-          }
-          rowPins.push("D" + (j + parseInt(matrow)));
+          rowPins.push("Row " + j + " pin (i.e. GP" + (j+3) + ")");
         }
 
         matrixEntries = [];
