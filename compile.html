@@ -575,8 +575,10 @@ ${keymapREText}`;
             let kl = ks + "-" + ls;
             // console.log(lk);
             allKeys[kl] = localStorage.getItem(kl);
-            matrixEntries.push({ matrix: [k, l], x: l, y: k });
-            //             {"matrix": [row,col], "x": col, "y": row}
+            if(allKeys[kl] != 'NONE'){
+              matrixEntries.push({ matrix: [k, l], x: l, y: k });
+              //             {"matrix": [row,col], "x": col, "y": row}
+            }
           }
         }
         console.log(allKeys);

@@ -423,6 +423,7 @@
             let ij = is + js;
             let ijn = parseInt(ij);
             let ijf = is + "-" + js;
+            console.log(checks);
             if (ijf == "0-10") {
               if (checks[999].checked) {
                 localStorage.setItem(ijf, selects[999].value);
@@ -463,7 +464,7 @@
             console.log(i.toString() + "-" + k.toString() + ": " + selectValue);
 
 
-            if (keyIndex == 10 && specialTen == false) { // Special case! How fun.
+            if (keyIndex == 10 && specialTen == false && matcol > 10) { // Special case! How fun.
 
               cells[k] = rows[i].insertCell();
               selects[999] = document.createElement("select");
