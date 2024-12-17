@@ -286,17 +286,29 @@
         <p>
           Inside the keyboards folder, make a new folder. Give it the name of
           your keyboard, except DO NOT include spaces, special characters, or
-          capital letters. This is important!
+          capital letters. This is important!<br><br>
+          Your file structure should look like this:
+          
         </p>
         <p>
           Inside your new keyboard folder, create
-          <code class="language-c">keyboard.json</code> and
-          <code class="language-c">readme.md</code> files. Then make a folder
+          <code class="language-c">keyboard.json</code>, <code class="language-c">rules.mk</code>, and
+          <code class="language-c">config.h</code> files. Then make a folder
           named "keymaps" and inside <i>that</i>, a folder named "default".
-          Finally, create <code class="language-c">keymap.c</code>,
-          <code class="language-c">rules.mk</code>, and
-          <code class="language-c">config.h</code> inside the "default" folder.
+          Finally, create <code class="language-c">keymap.c</code> and
+          <code class="language-c">readme.md</code> inside the "default" folder.
         </p>
+        <pre><code class="language-c">qmk_firmware/
+├── keyboards/
+     └── my_keyboard/
+          ├── config.h
+          ├── keyboard.json
+          ├── rules.mk 
+          └── keymaps/
+               └── default/
+                    ├── keymap.c
+                    └── readme.md</code></pre>
+        
 
         <p>
           Whew! That was a lot of file-making. Now, you're going to simply paste
