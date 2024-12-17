@@ -595,8 +595,8 @@ ${keymapREText}`;
             return isLastValue ? value : `${value}, `;
           })
           .join("")
-          .replaceAll("NONE,","     ")
-          .replaceAll("NONE","");
+          .replaceAll("NONE,","KC_NO,")
+          .replaceAll("NONE","KC_NO");
 
         // console.log(matrixEntries);
         keyboardText = `{

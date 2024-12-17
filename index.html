@@ -80,9 +80,45 @@
     .main p {
       font-size: large;
     }
+    .npbuts {
+      position: fixed;
+      width: 99%;
+      bottom: 70px;
+    }
+    .npbuts button {
+      width: 170px;
+      height: 50px;
+      font-size: larger;
+      color: white;
+      border: 3px solid white;
+      border-radius: 5px;
+    }
+    #next {
+      background-color: rgb(32, 173, 13);
+      position: fixed;
+      right: 10px;
+      margin-left: auto;
+      margin-right: 15px;
+    }
+
+    #prev {
+      background-color: rgb(216, 59, 221);
+      position: fixed;
+      left: 10px;
+      margin-right: auto;
+      margin-left: 15px;
+    }
+    #prev:hover,
+    #next:hover {
+      background-color: rgb(9, 76, 151);
+    }
+    #prev:active,
+    #next:active {
+      background-color: rgb(201, 6, 201);
+    }
   </style>
 
-  <body style="background-color: rgb(7, 3, 22)">
+  <body style="background-color: rgb(7, 3, 22); margin-bottom: 150px;">
     <div class="logodiv">
       <h3>By <a href="https://github.com/invictus-anic3tus">Anicetus</a></h3>
     </div>
@@ -147,9 +183,16 @@
           <b><a href="./start.html">get started</a></b
           >?
         </p>
+        <div class="npbuts">
+          <button id="next" onclick="next()">Next</button>
+        </div>
       </div>
     </div>
 
-    <script></script>
+    <script>
+    function next() {
+      window.location.href = "./start.html";
+    }
+    </script>
   </body>
 </html>

@@ -232,7 +232,7 @@
         <p>Firstly, add <code class="language-javascript">ENCODER_ENABLE = yes</code> to your rules.mk file, and</p>
         <pre><code class="language-c">#define ENCODER_A_PINS { D12 }
 #define ENCODER_B_PINS { D13 }</code></pre> to your config.h file.
-        <p>These A and B pins are the pins from the schematic. Hopefully you know these! Look at your schematic and determine which microcontroller pins are connected to the A and B labeled pins of the rotary encoder. The D before the pin number might be replaced with G or B, depending on your controller. For RP2040 it's D.</p>
+        <p>These A and B pins are the pins from the schematic. Hopefully you know these! Look at your schematic and determine which microcontroller pins are connected to the A and B labeled pins of the rotary encoder. The D before the pin number might be replaced with G or B, depending on your controller. For RP2040 it's GP.</p>
         <p>If you want to flip the encoder's direction, use <code class="language-c">#define ENCODER_DIRECTION_FLIP</code>. To lessen or greaten the sensitivity, decrease or increase <code class="language-c">#define ENCODER_RESOLUTION 4</code>. The higher the number, the lower sensitivity.</p>
         <p><br>Alright, last thing. By default, the encoder is configured to be a volume knob, changing the volume of the computer it's hooked up to. To make it do something, frankly, more useful when turned, check out the code below.<br>Remember that the rotary encoder's button is just a button like the others, commonly defined in the matrix.</p>
         <p>For keymap.c:</p>
