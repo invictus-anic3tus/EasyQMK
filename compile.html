@@ -486,7 +486,7 @@ ${keymapREText}`;
         // Set processor and bootmagic
         switch (bootloader) {
           case "rp2040":
-            processor = "rp2040";
+            processor = "RP2040";
 
             bootmagic = true;
             break;
@@ -496,7 +496,7 @@ ${keymapREText}`;
             bootmagic = true;
             break;
           case "halfkay":
-            processor = "imxrt1062";
+            processor = "cortex-m7";
 
             bootmagic = true;
             break;
@@ -511,27 +511,27 @@ ${keymapREText}`;
             bootmagic = true;
             break;
           case "nrf-dfu":
-            processor = "nrf52840";
+            processor = "nrf52";
 
             bootmagic = true;
             break;
           case "stm32-dfu":
-            processor = "stm32l432";
+            processor = "STM32L432";
 
             bootmagic = false;
             break;
           case "stm32-dfu-f103":
-            processor = "stm32f103";
+            processor = "STM32F103";
 
             bootmagic = false;
             break;
           case "stm32duino":
-            processor = "stm32f103";
+            processor = "STM32F103";
 
             bootmagic = false;
             break;
           case "espressif-dfu":
-            processor = "espressif";
+            processor = "esp32";
 
             bootmagic = false;
             break;
@@ -676,7 +676,7 @@ bool oled_task_user() {
           rulesOLEDText = `OLED_ENABLE = yes
 LTO_ENABLE = yes`;
           configOledText = `#define I2C1_SDA_PIN GP6
-#define I2C1_SCL_PIN GP7 // Define which pins are SDA and SCL on your microcontroller model.
+#define I2C1_SCL_PIN GP7 // Define which pins are SDA and SCL on your microcontroller model. Remember to change GP to your pin indicator if you aren't using the RP2040
 #define OLED_DRIVER_ENABLE
 
 // You may need to add these if the OLED doesn't work at first.
@@ -713,8 +713,9 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
           rulesREText = `
 ENCODER_ENABLE = yes`;
           configREText = `
-#define ENCODER_A_PINS { GP2 }
-#define ENCODER_B_PINS { GP4 }`;
+#define NUM_ENCODERS 1 // Number of encoders
+#define ENCODER_A_PINS { GP2 } // A and B pins that are hooked up to the microcontroller
+#define ENCODER_B_PINS { GP4 } // Replace these with your values.`;
         }
 
         keymapText = `#include QMK_KEYBOARD_H
@@ -726,7 +727,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };${keymapOledText}
 ${keymapREText}`;
         rulesText = `${rulesOLEDText}${rulesREText}`;
-        configText = `${configOledText}${configREText}`;
+        configText = `${configREText}${configOledText}`;
       }
 
       setup();
